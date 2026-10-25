@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://abdullahzarshaid.github.io/security-assessment-tools/sitemap.xml
