@@ -43,6 +43,18 @@ Fifteen readiness assessments, from a plain-language starting point to framework
 
 That is 186 original prompts in total.
 
+## Security tools
+
+Beyond the assessments, the [Tools page](https://abdullahzarshaid.github.io/security-assessment-tools/tools.html) has five hands-on utilities, all client-side:
+
+- **Subnet calculator** for IPv4 CIDR blocks (network, mask, usable range, host count).
+- **JWT inspector** that decodes the header and payload (the signature is never verified).
+- **Security-header analyzer** that flags common response headers as present, review or not observed.
+- **Access-control demonstration** of broken object-level authorization (BOLA), on synthetic data.
+- **Risk matrix** (5 by 5 likelihood and impact) for quick prioritization.
+
+Use non-sensitive sample data only; none of these replace a proper security test.
+
 ## How the score works
 
 The index is an equal-weight, selected-state measure:
