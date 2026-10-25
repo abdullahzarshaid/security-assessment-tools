@@ -1,179 +1,2001 @@
-/* Original readiness prompts by Abdullah Bin Zarshaid (abdullahzarshaid.com). No licensed standards text or private app data.
-   Each prompt links to a remediation document in the open GRC Documentation Kit.
-   Fields: code, area, title (the prompt), evidence (what proves it), action (what to do),
-   owner (the role), kit (GRC kit document id for remediation). */
-window.SCHEMA_VERSION = "abz-readiness-v2";
-window.QUESTIONNAIRE_VERSION = "2026-10-26";
+/* Original screening questions by Abdullah Bin Zarshaid (abdullahzarshaid.com).
+   Ported verbatim from the live assessment library; references establish context,
+   not full framework coverage. Each area links to a remediation template in the
+   open GRC Documentation Kit. Do not paste credentials, client records or raw
+   vulnerability evidence into any answer. */
+window.ANSWER_LABELS = {implemented:"Operating",partial:"Partial",planned:"Planned",absent:"Not in place",unknown:"Not sure"};
+window.ANSWER_VALUES = {implemented:3,partial:2,planned:1,absent:0};
 window.KIT_BASE = "https://abdullahzarshaid.github.io/grc-documentation-kit/kit.html#";
-const q = (code, area, title, evidence, action, owner, kit) => ({code, area, title, evidence, action, owner, kit});
 window.TRACKS = [
-  {
-    id: "security-basics", title: "Security fundamentals", shortTitle: "Security fundamentals",
-    audience: "A practical starting point for a small business or product team.",
-    description: "Identify the everyday security practices that deserve a closer look before choosing a formal framework.",
-    limitation: "Original security discussion prompts, not a complete control set, technical test, risk assessment or prediction of a breach.",
-    source: {label: "NIST small-business resources", url: "https://www.nist.gov/itl/smallbusinesscyber"},
-    questions: [
-      q("BAS-01","Context & ownership","Is someone accountable for security decisions and the systems in scope?","A named owner and a dated system/service boundary.","Name the accountable owner and document the systems covered by this review.","Business owner","gov-pol-01"),
-      q("BAS-02","Context & ownership","Can you identify the devices, accounts, services and important data the business relies on?","A maintained inventory with service and data owners.","Start an inventory and confirm who updates it when services change.","IT owner","gov-pro-16"),
-      q("BAS-03","Context & ownership","Are sensitive data access, sharing and retention expectations defined?","Data-handling rules tied to actual services and business needs.","Identify sensitive data flows and document who may share and retain them.","Data owner","gov-pro-16"),
-      q("BAS-04","Identity & people","Is strong multi-factor authentication applied to important accounts?","Account settings and coverage exceptions, not a policy alone.","Review important accounts, enable suitable MFA and record exceptions.","IT owner","gov-pol-06"),
-      q("BAS-05","Identity & people","Are joiners, role changes and leavers handled through a reviewed access process?","Recent access changes and a periodic access review.","Assign an access-review owner and verify a small authorized sample.","Access owner","gov-pro-10"),
-      q("BAS-06","Identity & people","Do people know how to recognize and report a suspicious request?","Awareness material and a usable reporting route.","Publish a reporting contact and check staff understand the route.","People lead","gov-pro-08"),
-      q("BAS-07","Secure operations","Are supported software, updates and configuration responsibilities managed?","A software inventory, update records and exception owners.","Identify unsupported or overdue software and assign remediation decisions.","IT owner","gov-pro-11"),
-      q("BAS-08","Secure operations","Are important production changes reviewed and recoverable?","Recent change approvals, rollback steps and deployment records.","Agree review and rollback checks for high-impact changes.","Engineering lead","gov-pro-09"),
-      q("BAS-09","Secure operations","Are important security events recorded and reviewed by an owner?","Logging settings, a recent review and an escalation route.","Choose relevant events, confirm retention and assign a review owner.","Security owner","gov-pro-14"),
-      q("BAS-10","Recovery & dependencies","Have backups for important data been restored successfully in a controlled test?","A recent restoration record showing what was recovered.","Run an authorized restore rehearsal and record the result and limitations.","Recovery owner","gov-pro-12"),
-      q("BAS-11","Recovery & dependencies","Is there a usable incident contact and response plan?","Named contacts, decision responsibilities and a practice exercise.","Define who acts first, who makes decisions and how the team communicates.","Incident owner","gov-pro-07"),
-      q("BAS-12","Recovery & dependencies","Are critical suppliers and their access reviewed?","A supplier list, access boundaries and review decisions.","Prioritize critical suppliers and review their access and business dependency.","Supplier owner","gov-pro-06")
-    ]
+ {
+  "id": "nist",
+  "title": "NIST CSF 2.0",
+  "shortTitle": "NIST CSF 2.0",
+  "tagline": "A clearer view of your security programme.",
+  "type": "Framework snapshot",
+  "minutes": "6 to 8",
+  "limitation": "18 original prompts across the six CSF functions. Selected screening topics, not the complete CSF Core or an official NIST score.",
+  "source": {
+   "label": "NIST Cybersecurity Framework 2.0",
+   "url": "https://www.nist.gov/cyberframework"
   },
-  {
-    id: "nist-csf", title: "NIST CSF 2.0 readiness", shortTitle: "NIST CSF 2.0",
-    audience: "Teams organising their security programme around the Cybersecurity Framework.",
-    description: "Explore the six CSF 2.0 functions, Govern, Identify, Protect, Detect, Respond and Recover, through original prompts.",
-    limitation: "Original prompts informed by the NIST Cybersecurity Framework 2.0 functions, not the full framework, a profile, a tier rating or an assessment result. Use the framework itself for authoritative outcomes.",
-    source: {label: "NIST Cybersecurity Framework 2.0", url: "https://www.nist.gov/cyberframework"},
-    questions: [
-      q("CSF-01","Govern","Is your organisational context and risk strategy understood and used to set security priorities?","A recorded context, risk strategy and priorities approved by leadership.","Agree what the business must protect and how much risk it will accept.","Executive sponsor","gov-pol-01"),
-      q("CSF-02","Govern","Are security roles, responsibilities and authorities assigned and communicated?","Named roles, authorities and an escalation route.","Document who owns, operates and oversees each part of the programme.","Governance owner","gov-pol-01"),
-      q("CSF-03","Govern","Is there an approved security policy, reviewed on a cycle and acknowledged by staff?","An approved policy, its review date and staff acknowledgements.","Issue a top-level policy and confirm staff have seen and accepted it.","Security owner","gov-pol-03"),
-      q("CSF-04","Govern","Does leadership oversee the risk management strategy and review performance?","Management review records and decisions.","Put security on a regular leadership agenda with recorded decisions.","Executive sponsor","gov-pro-03"),
-      q("CSF-05","Identify","Do you maintain an inventory of assets, data and their owners?","A maintained inventory with owners and criticality.","Build and keep an inventory of systems, data and devices.","Asset owner","gov-pro-16"),
-      q("CSF-06","Identify","Do you identify, analyse and record risks to your objectives in a register?","A risk register with scoring, owners and review dates.","Assess your main risks consistently and record them.","Risk owner","gov-pro-05"),
-      q("CSF-07","Identify","Are supplier and supply-chain risks assessed and managed?","A supplier register with tiering, assurance and review.","Assess the security of vendors that handle your data or systems.","Supplier owner","gov-pro-06"),
-      q("CSF-08","Identify","Do you capture lessons from incidents and audits and act on them?","A corrective-action register with verified closure.","Turn findings and incidents into tracked improvements.","Improvement owner","gov-pro-04"),
-      q("CSF-09","Protect","Are identities and access managed with least privilege and periodic review?","Access requests, least-privilege decisions and review records.","Grant access by role and review it on a cycle.","Access owner","gov-pro-10"),
-      q("CSF-10","Protect","Do staff receive role-appropriate awareness and training?","Training records and phishing-exercise results.","Train staff on their responsibilities and test awareness.","People lead","gov-pro-08"),
-      q("CSF-11","Protect","Is data protected in transit and at rest with managed cryptography?","Encryption settings and a key inventory.","Encrypt data in transit and at rest and manage the keys.","Security owner","gov-pro-20"),
-      q("CSF-12","Protect","Are systems configured to a secure baseline and changes controlled?","Baseline checklists and change records.","Harden systems to a baseline and control changes.","Engineering lead","gov-chk-02"),
-      q("CSF-13","Detect","Are systems monitored continuously for anomalies and events?","Monitoring coverage and a recent review.","Monitor systems and alert on anomalies.","Security owner","gov-pro-14"),
-      q("CSF-14","Detect","Are detected events analysed to decide whether they are incidents?","Triage records and severity decisions.","Define how events are triaged into incidents.","Incident owner","gov-pro-07"),
-      q("CSF-15","Detect","Do you scan for vulnerabilities and track them to remediation?","A vulnerability register with SLAs and closure.","Scan on a schedule and remediate within set timeframes.","Security owner","gov-pro-11"),
-      q("CSF-16","Detect","Are logs retained, protected and reviewed on a cadence?","Log retention settings and review records.","Retain and review security-relevant logs.","Security owner","gov-pro-14"),
-      q("CSF-17","Respond","Is there an incident response process that is followed and recorded?","An incident plan and logged incidents.","Adopt an incident process and record what happens.","Incident owner","gov-pro-07"),
-      q("CSF-18","Respond","Are incidents triaged by severity and contained promptly?","Severity matrix and containment records.","Classify incidents and contain them quickly.","Incident owner","gov-pro-07"),
-      q("CSF-19","Respond","Is incident communication planned, internally and externally?","A communication plan with contacts.","Plan who is told, when and how, during an incident.","Governance owner","gov-pro-07"),
-      q("CSF-20","Respond","Do you run a post-incident review and apply the lessons?","Post-incident review records and actions.","Review every significant incident and act on the lessons.","Incident owner","gov-tpl-11"),
-      q("CSF-21","Recover","Do you have recovery and continuity plans for disruption?","Continuity and recovery plans with owners.","Prepare and own plans for major disruption.","Recovery owner","gov-pro-13"),
-      q("CSF-22","Recover","Are backups verified by restore tests?","Restore-test records.","Test restores, do not assume backups work.","Recovery owner","gov-pro-12"),
-      q("CSF-23","Recover","Is recovery communication planned so stakeholders are informed?","A recovery communication plan.","Plan how you keep people informed during recovery.","Governance owner","gov-pro-13"),
-      q("CSF-24","Recover","Do you exercise the continuity and recovery plans?","Exercise records and improvements.","Rehearse the plans and improve them.","Recovery owner","gov-pro-13")
-    ]
+  "areas": [
+   "Govern",
+   "Identify",
+   "Protect",
+   "Detect",
+   "Respond",
+   "Recover"
+  ],
+  "questions": [
+   {
+    "code": "GV1",
+    "area": "Govern",
+    "title": "Does security have a named decision-maker?",
+    "check": "Look for a current owner, agreed responsibilities and an escalation route.",
+    "action": "Name a security decision-maker and document who can accept risk.",
+    "priority": 3,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "GV2",
+    "area": "Govern",
+    "title": "Are important risks reviewed with business leaders?",
+    "check": "Look for a dated risk discussion and assigned next actions.",
+    "action": "Schedule a risk review with named actions and decision owners.",
+    "priority": 2,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "GV3",
+    "area": "Govern",
+    "title": "Are critical suppliers included in your security decisions?",
+    "check": "Consider access, data handled, service dependency and exit arrangements.",
+    "action": "List critical suppliers and establish a proportionate review process.",
+    "priority": 2,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "ID1",
+    "area": "Identify",
+    "title": "Do you know which systems and services matter most?",
+    "check": "Check whether your inventory covers externally hosted services as well as devices.",
+    "action": "Build a scoped inventory with business owners and critical dependencies.",
+    "priority": 3,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "ID2",
+    "area": "Identify",
+    "title": "Do you understand where sensitive information flows?",
+    "check": "Choose one important workflow and trace collection, access, storage and sharing.",
+    "action": "Document the information flow and its main trust boundaries.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "ID3",
+    "area": "Identify",
+    "title": "Are vulnerabilities tracked through remediation?",
+    "check": "Look for an owner, target date, exception decision and closure check.",
+    "action": "Create a remediation register and a process for verifying closure.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "PR1",
+    "area": "Protect",
+    "title": "Is stronger authentication enforced on important accounts?",
+    "check": "Review administrator access, remote access and recovery paths, not only one application.",
+    "action": "Prioritize strong MFA on privileged and externally accessible accounts.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "PR2",
+    "area": "Protect",
+    "title": "Is access removed or changed when roles change?",
+    "check": "Inspect recent joiner, mover and leaver records for the systems in scope.",
+    "action": "Define access-change owners and test a recent offboarding example.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "PR3",
+    "area": "Protect",
+    "title": "Are baseline configurations and updates maintained?",
+    "check": "Look for an approved baseline and evidence of patch or exception handling.",
+    "action": "Assign baseline ownership and a risk-based update process.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "DE1",
+    "area": "Detect",
+    "title": "Are security-relevant logs available for important services?",
+    "check": "Consider identity, administrator actions and critical application events.",
+    "action": "Identify necessary logs, retention, access and a collection owner.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "DE2",
+    "area": "Detect",
+    "title": "Does someone review and act on security alerts?",
+    "check": "An enabled tool is not enough: check triage ownership and an example.",
+    "action": "Define triage responsibilities and test a representative alert.",
+    "priority": 3,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "DE3",
+    "area": "Detect",
+    "title": "Have detection gaps been tested recently?",
+    "check": "Use an authorized, harmless test and check the expected signal appears.",
+    "action": "Run a scoped detection exercise and record missed signals.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "RS1",
+    "area": "Respond",
+    "title": "Can the team find an incident contact and decision process?",
+    "check": "Check the plan is available during account or network disruption.",
+    "action": "Keep an accessible response contact tree and decision guide.",
+    "priority": 3,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "RS2",
+    "area": "Respond",
+    "title": "Are containment and evidence-preservation decisions planned?",
+    "check": "Identify who can isolate services and who protects investigative records.",
+    "action": "Document containment authority and evidence-handling steps.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "RS3",
+    "area": "Respond",
+    "title": "Has an incident scenario been rehearsed?",
+    "check": "Look for an exercise record, lessons and follow-up owners.",
+    "action": "Run a short tabletop and track the resulting improvements.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "RC1",
+    "area": "Recover",
+    "title": "Have important backups been restored in a test?",
+    "check": "A successful backup job does not establish that the data can be restored.",
+    "action": "Test recovery of a scoped critical workload and record the outcome.",
+    "priority": 3,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "RC2",
+    "area": "Recover",
+    "title": "Are recovery priorities agreed with service owners?",
+    "check": "Check dependencies and realistic recovery expectations.",
+    "action": "Agree a recovery sequence and validate dependencies.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "RC3",
+    "area": "Recover",
+    "title": "Do recovery exercises feed back into the security plan?",
+    "check": "Look for documented lessons and completed follow-up work.",
+    "action": "Assign owners to recovery lessons and review completion.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   }
+  ]
+ },
+ {
+  "id": "iso",
+  "title": "ISO 27001 readiness",
+  "shortTitle": "ISO 27001 readiness",
+  "tagline": "Start with the management system, not a badge.",
+  "type": "Readiness screening",
+  "minutes": "4 to 6",
+  "limitation": "12 original preparation questions. Does not reproduce ISO clauses or Annex A, determine conformity, or replace a licensed standard and qualified assessment.",
+  "source": {
+   "label": "ISO/IEC 27001 overview",
+   "url": "https://www.iso.org/standard/27001"
   },
-  {
-    id: "iso27001", title: "ISO 27001 preparation", shortTitle: "ISO 27001",
-    audience: "Teams preparing to define or improve an information security management system.",
-    description: "Explore scope, risk decisions, operating practices and the evidence needed for an ISMS readiness conversation.",
-    limitation: "Original preparation prompts, not reproduced ISO/IEC 27001 clauses, a complete requirements checklist, an audit or certification. Use the current licensed standard and competent independent review where required.",
-    source: {label: "ISO/IEC 27001 overview", url: "https://www.iso.org/standard/27001"},
-    questions: [
-      q("ISO-01","Scope & leadership","Is the proposed ISMS scope clear about entities, services, locations and boundaries?","A scope statement with explicit inclusions and exclusions.","Draft the boundary and confirm it with responsible stakeholders.","ISMS owner","isms-stm-01"),
-      q("ISO-02","Scope & leadership","Has leadership assigned accountability and the resources needed for the security programme?","Named responsibilities, approved objectives and resource decisions.","Record who can approve priorities, accept risk and provide resources.","Executive sponsor","gov-pol-01"),
-      q("ISO-03","Scope & leadership","Are relevant stakeholders and business, contractual and regulatory expectations identified?","A maintained obligations/context register with responsible reviewers.","Identify expectations for the scoped service; obtain specialist advice where needed.","Governance owner","isms-pro-01"),
-      q("ISO-04","Risk & treatment","Are important information assets and their owners known within the scope?","Asset/data inventory and ownership decisions.","Identify key assets and dependencies before evaluating their risks.","Asset owner","gov-pro-16"),
-      q("ISO-05","Risk & treatment","Is a consistent risk-assessment approach used and documented?","Risk criteria, assessment records and a review date.","Agree likelihood, impact and acceptance criteria, then apply them consistently.","Risk owner","gov-pro-05"),
-      q("ISO-06","Risk & treatment","Are risk-treatment choices, control decisions and residual risks recorded?","Treatment decisions, responsibility and documented rationale.","Connect each material risk to a treatment, owner and review decision.","Risk owner","gov-pro-05"),
-      q("ISO-07","Operating practices","Are policies and working instructions reflected in actual access and handling practices?","Current instructions plus operating examples and exceptions.","Select a small evidence sample to compare documented intent with practice.","Control owner","gov-pro-10"),
-      q("ISO-08","Operating practices","Are relevant people prepared to carry out their security responsibilities?","Role expectations, awareness/training records and communication.","Clarify role-specific responsibilities and close relevant knowledge gaps.","People lead","isms-pro-02"),
-      q("ISO-09","Operating practices","Are supplier, change and technology risks considered before important decisions?","Supplier/change reviews and resulting actions.","Define proportionate review gates for critical suppliers and changes.","Operations owner","gov-pro-06"),
-      q("ISO-10","Review & improvement","Are security objectives and control performance reviewed against evidence?","Measures, review records and decisions on exceptions.","Choose useful measures and record what management does with the results.","ISMS owner","isms-pro-04"),
-      q("ISO-11","Review & improvement","Are internal assurance and management reviews planned and followed through?","Review plans, results, management decisions and independence considerations.","Plan competent reviews and assign owners to their resulting actions.","Executive sponsor","gov-pro-02"),
-      q("ISO-12","Review & improvement","Are weaknesses and corrective actions tracked to a checked outcome?","A corrective-action register with cause, owner, due date and closure evidence.","Define closure criteria and verify corrective actions instead of just marking them done.","Improvement owner","gov-pro-04")
-    ]
+  "areas": [
+   "Scope",
+   "Risk",
+   "Controls",
+   "Improvement"
+  ],
+  "questions": [
+   {
+    "code": "IS1",
+    "area": "Scope",
+    "title": "Is the information-security programme boundary documented?",
+    "check": "Name entities, locations, services, dependencies and exclusions.",
+    "action": "Write and approve an initial programme scope.",
+    "priority": 3,
+    "kit": "isms-stm-01"
+   },
+   {
+    "code": "IS2",
+    "area": "Scope",
+    "title": "Are stakeholder and contractual expectations understood?",
+    "check": "Review relevant customer requirements and who evaluates applicability.",
+    "action": "Create a requirements register with review ownership.",
+    "priority": 2,
+    "kit": "isms-stm-01"
+   },
+   {
+    "code": "IS3",
+    "area": "Scope",
+    "title": "Has management assigned resources and responsibilities?",
+    "check": "Check actual decision authority, time and responsibilities.",
+    "action": "Agree responsibility and resourcing for the scoped programme.",
+    "priority": 2,
+    "kit": "isms-stm-01"
+   },
+   {
+    "code": "IR1",
+    "area": "Risk",
+    "title": "Is the risk-assessment method consistent and documented?",
+    "check": "Different reviewers should understand how likelihood, impact and acceptance are decided.",
+    "action": "Define a repeatable risk method and acceptance criteria.",
+    "priority": 2,
+    "kit": "gov-pro-05"
+   },
+   {
+    "code": "IR2",
+    "area": "Risk",
+    "title": "Do risk treatments have accountable owners?",
+    "check": "Trace a risk through treatment, target date and residual-risk decision.",
+    "action": "Assign treatments and capture residual-risk decisions.",
+    "priority": 3,
+    "kit": "gov-pro-05"
+   },
+   {
+    "code": "IR3",
+    "area": "Risk",
+    "title": "Are control applicability decisions explained?",
+    "check": "Check inclusions and exclusions against the real scope and risks.",
+    "action": "Prepare a reviewed applicability rationale using the licensed standard.",
+    "priority": 2,
+    "kit": "gov-pro-05"
+   },
+   {
+    "code": "IC1",
+    "area": "Controls",
+    "title": "Are key policies approved and maintained?",
+    "check": "A template alone is not an approved organizational policy.",
+    "action": "Assign policy owners and a review/approval cycle.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IC2",
+    "area": "Controls",
+    "title": "Can operating records support your control descriptions?",
+    "check": "Check current evidence for access reviews, changes, backups and response.",
+    "action": "Map selected control claims to dated operating records.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IC3",
+    "area": "Controls",
+    "title": "Do people understand their security responsibilities?",
+    "check": "Look for role-appropriate instruction and feedback, not only attendance.",
+    "action": "Run role-relevant training and record follow-up needs.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "II1",
+    "area": "Improvement",
+    "title": "Has the programme been independently challenged internally?",
+    "check": "Identify review scope, reviewer objectivity and recorded findings.",
+    "action": "Plan an internal audit with suitable objectivity.",
+    "priority": 2,
+    "kit": "gov-pro-04"
+   },
+   {
+    "code": "II2",
+    "area": "Improvement",
+    "title": "Does management review performance and unresolved risks?",
+    "check": "Look for decisions, inputs and follow-up from a management review.",
+    "action": "Prepare a management review with explicit decisions.",
+    "priority": 2,
+    "kit": "gov-pro-04"
+   },
+   {
+    "code": "II3",
+    "area": "Improvement",
+    "title": "Are corrective actions checked for effectiveness?",
+    "check": "Closing a ticket is not the same as showing the issue was addressed.",
+    "action": "Define and test effectiveness criteria for corrective action.",
+    "priority": 2,
+    "kit": "gov-pro-04"
+   }
+  ]
+ },
+ {
+  "id": "soc2",
+  "title": "SOC 2 preparation",
+  "shortTitle": "SOC 2 preparation",
+  "tagline": "Make your evidence useful before the examination.",
+  "type": "Readiness screening",
+  "minutes": "4 to 6",
+  "limitation": "12 original preparation prompts. Not a Trust Services Criteria catalogue, CPA examination, attestation or SOC 2 compliance percentage.",
+  "source": {
+   "label": "AICPA SOC resources",
+   "url": "https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services"
   },
-  {
-    id: "soc2", title: "SOC 2 evidence readiness", shortTitle: "SOC 2",
-    audience: "Service organizations preparing for a buyer-assurance or CPA scoping conversation.",
-    description: "Check whether the service boundary, operating records and review ownership are ready for a more detailed evidence review.",
-    limitation: "Original evidence-readiness prompts, not reproduced AICPA Trust Services Criteria, a complete SOC 2 checklist, an examination or an audit opinion. A qualified independent CPA determines the examination scope and result.",
-    source: {label: "AICPA SOC resources", url: "https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services"},
-    questions: [
-      q("SOC-01","Service & accountability","Is the service boundary clear about systems, data, people and important dependencies?","A system/service description with explicit boundaries.","Agree the service scope before promising a report or control coverage.","Service owner","soc-tpl-01"),
-      q("SOC-02","Service & accountability","Are customer commitments and the intended assurance scope understood?","Recorded commitments and questions for the independent CPA.","Collect buyer expectations and discuss an appropriate scope with the assurance provider.","Governance owner","isms-pln-02"),
-      q("SOC-03","Service & accountability","Do control owners know what they operate and what records they should retain?","Named owners and a dated evidence responsibility plan.","Assign control responsibilities and the evidence period to be discussed.","Programme owner","soc-reg-01"),
-      q("SOC-04","Access & people","Can access approval and removal be traced through operating records?","Authorized joiner, mover and leaver samples.","Review a small permitted sample and track any timing or approval gaps.","Access owner","gov-pro-10"),
-      q("SOC-05","Access & people","Are privileged access and authentication settings reviewed?","Privileged-account inventory, MFA coverage and review decisions.","Check important access paths and assign exception owners.","IT owner","gov-pol-06"),
-      q("SOC-06","Access & people","Are relevant personnel aware of their security and reporting responsibilities?","Acknowledgements, role preparation and awareness records.","Confirm responsibilities are communicated and supported in practice.","People lead","gov-pro-08"),
-      q("SOC-07","Operating evidence","Are software and infrastructure changes reviewed and traceable?","Change records, approvals, deployment evidence and exceptions.","Choose a representative change sample and document missing approvals or records.","Engineering lead","gov-pro-09"),
-      q("SOC-08","Operating evidence","Are identified technical weaknesses prioritized and followed up?","A vulnerability/remediation register with review and closure decisions.","Define remediation ownership and check how overdue exceptions are handled.","Security owner","gov-pro-11"),
-      q("SOC-09","Operating evidence","Are monitoring and incident activities supported by dated operating records?","Review records, incidents/exercises and follow-up actions.","Select the relevant operating evidence rather than relying only on a policy.","Incident owner","gov-pro-07"),
-      q("SOC-10","Evidence & review","Are critical third-party dependencies reviewed against the service commitments?","Supplier review, applicable assurance records and tracked exceptions.","Identify dependencies and review the risks that remain the service organization's responsibility.","Supplier owner","gov-pro-06"),
-      q("SOC-11","Evidence & review","Can evidence be identified by source, owner, period and applicable boundary?","An evidence register with dates and links to controlled source material.","Organize evidence provenance and record gaps without uploading sensitive files here.","Evidence owner","soc-reg-02"),
-      q("SOC-12","Evidence & review","Are readiness gaps and changes reviewed before communicating assurance claims?","A gap register, management decisions and CPA scoping questions.","Validate external claims and agree the next evidence-review step.","Programme owner","soc-gde-01")
-    ]
+  "areas": [
+   "Boundary",
+   "Operation",
+   "Evidence",
+   "Review"
+  ],
+  "questions": [
+   {
+    "code": "SB1",
+    "area": "Boundary",
+    "title": "Are the service and system boundary clearly described?",
+    "check": "Clarify the product, supporting people, processes, technology and dependencies.",
+    "action": "Draft a concise system boundary and review it with service owners.",
+    "priority": 3,
+    "kit": "soc-tpl-01"
+   },
+   {
+    "code": "SB2",
+    "area": "Boundary",
+    "title": "Are customer commitments translated into responsibilities?",
+    "check": "Use actual agreements and service commitments rather than generic promises.",
+    "action": "Map material commitments to owners and controls.",
+    "priority": 2,
+    "kit": "soc-tpl-01"
+   },
+   {
+    "code": "SB3",
+    "area": "Boundary",
+    "title": "Have examination scope and timing been discussed with a CPA firm?",
+    "check": "Readiness planning should reflect the intended examination and period.",
+    "action": "Confirm the intended scope and period with an appropriately qualified CPA firm.",
+    "priority": 2,
+    "kit": "soc-tpl-01"
+   },
+   {
+    "code": "SO1",
+    "area": "Operation",
+    "title": "Are access approvals and removals consistently recorded?",
+    "check": "Sample recent changes and reconcile records to the services in scope.",
+    "action": "Create a traceable access-change workflow.",
+    "priority": 3,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SO2",
+    "area": "Operation",
+    "title": "Are production changes reviewed and attributable?",
+    "check": "Trace a release from request to review, deployment and rollback planning.",
+    "action": "Record change approvals and deployment evidence.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SO3",
+    "area": "Operation",
+    "title": "Are incidents, vulnerabilities and vendor issues followed through?",
+    "check": "Look for responsibility and closure rather than an open-ticket count.",
+    "action": "Define follow-through and escalation for exceptions.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SE1",
+    "area": "Evidence",
+    "title": "Can you retrieve evidence for the relevant time period?",
+    "check": "A current screenshot may not support historical operation.",
+    "action": "Define evidence cadence and retention for the intended period.",
+    "priority": 3,
+    "kit": "soc-reg-02"
+   },
+   {
+    "code": "SE2",
+    "area": "Evidence",
+    "title": "Do evidence references identify their scope and source?",
+    "check": "Include relevant system, owner, collection date and interpretation.",
+    "action": "Create an evidence index with source and period metadata.",
+    "priority": 2,
+    "kit": "soc-reg-02"
+   },
+   {
+    "code": "SE3",
+    "area": "Evidence",
+    "title": "Are sensitive records shared through an approved channel?",
+    "check": "Avoid a public folder or unrestricted email attachment workflow.",
+    "action": "Approve the evidence-sharing channel and access owners.",
+    "priority": 2,
+    "kit": "soc-reg-02"
+   },
+   {
+    "code": "SR1",
+    "area": "Review",
+    "title": "Are control owners reviewing exceptions?",
+    "check": "Identify who decides what happens when a control did not operate.",
+    "action": "Review exceptions and retain disposition decisions.",
+    "priority": 2,
+    "kit": "soc-gde-01"
+   },
+   {
+    "code": "SR2",
+    "area": "Review",
+    "title": "Has management reviewed the proposed system description?",
+    "check": "Confirm it describes the real service and its actual boundaries.",
+    "action": "Review the description with technical and business owners.",
+    "priority": 2,
+    "kit": "soc-gde-01"
+   },
+   {
+    "code": "SR3",
+    "area": "Review",
+    "title": "Are open readiness gaps prioritized before the examination?",
+    "check": "Confirm owners, dependencies and realistic target dates.",
+    "action": "Agree a readiness plan without guaranteeing an audit outcome.",
+    "priority": 2,
+    "kit": "soc-gde-01"
+   }
+  ]
+ },
+ {
+  "id": "cloud",
+  "title": "Cloud & identity",
+  "shortTitle": "Cloud & identity",
+  "tagline": "Follow permissions, exposure and recovery.",
+  "type": "Technical self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 vendor-neutral screening prompts, informed by cloud security principles. No account connection, live scan or cloud certification.",
+  "source": {
+   "label": "AWS Well-Architected security pillar",
+   "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/sec-design.html"
   },
-  {
-    id: "gdpr", title: "GDPR readiness", shortTitle: "GDPR",
-    audience: "Teams that process personal data through a product or service.",
-    description: "Explore the operational obligations of the GDPR: mapping, lawful bases, rights, breaches, transfers and retention.",
-    limitation: "Original readiness prompts, not reproduced GDPR text, legal advice, a compliance determination or a certification. Read the regulation and take qualified advice where it matters.",
-    source: {label: "GDPR text and EDPB guidance", url: "https://edpb.europa.eu/"},
-    questions: [
-      q("GDPR-01","Accountability","Do you keep a record of processing activities (a processing inventory)?","A maintained record of processing with purposes and categories.","Build and keep a record of what personal data you process and why.","Privacy owner","pims-reg-01"),
-      q("GDPR-02","Lawfulness","Does every processing activity have a recorded lawful basis?","A lawful basis recorded against each activity.","Decide and record the lawful basis for each processing activity.","Privacy owner","gdpr-reg-01"),
-      q("GDPR-03","Transparency","Are privacy notices published, current and in clear language?","Published notices covering collection and use.","Publish clear privacy notices and keep them current.","Privacy owner","gdpr-tpl-01"),
-      q("GDPR-04","Consent","Where you rely on consent, is it recorded and easy to withdraw?","Consent records and a withdrawal route.","Capture consent and make withdrawal as easy as giving it.","Privacy owner","pims-pro-05"),
-      q("GDPR-05","Minimisation","Do you collect and keep only the personal data you need?","Minimisation decisions reflected in the processing record.","Reduce what you collect and keep to what the purpose needs.","Data owner","gdpr-reg-01"),
-      q("GDPR-06","Retention","Is there a retention schedule that is applied and checked?","A retention schedule with checks and results.","Set retention periods and check they are applied.","Privacy owner","pims-reg-07"),
-      q("GDPR-07","Rights","Can you handle access, correction and erasure requests within a month?","A request process with the one-month clock tracked.","Stand up a rights-request process and track the deadline.","Privacy owner","pims-pro-03"),
-      q("GDPR-08","Breach","Can you assess and notify a breach within seventy-two hours of awareness?","A breach procedure and a register, with the clock understood.","Prepare the breach procedure and know the seventy-two hour clock.","Incident owner","pims-pro-04"),
-      q("GDPR-09","Assessments","Do you run a data protection impact assessment for high-risk processing?","DPIA screening and completed assessments where required.","Screen for high-risk processing and run a DPIA when needed.","Privacy owner","pims-pro-02"),
-      q("GDPR-10","Processors","Are processors engaged under contracts with the required terms?","A processor register and the required contract terms.","Put the required terms in place with every processor.","Procurement owner","pims-tpl-02"),
-      q("GDPR-11","Transfers","Are transfers outside the region made under a lawful mechanism?","A transfer register with mechanisms and assessments.","Record transfers and the mechanism that makes each lawful.","Privacy owner","pims-pol-03"),
-      q("GDPR-12","Security","Is security of processing appropriate to the risk and tested?","Security measures tied to the processing risk.","Protect personal data in proportion to the risk, and test it.","Security owner","gov-pro-05"),
-      q("GDPR-13","Data mapping","Do you know where personal data flows and is stored?","A data-flow map covering sources, stores and recipients.","Map where personal data comes from, lives and goes.","Data owner","gdpr-pro-01"),
-      q("GDPR-14","Deletion","Does deletion reach primary storage, backups and logs?","Deletion that covers derived data, backups and logs.","Make sure deletion is complete, not just the front-end record.","Engineering lead","pims-pol-02"),
-      q("GDPR-15","Cookies","Do cookie and tracking choices get captured and honoured?","A cookie inventory and a consent mechanism.","Inventory cookies and honour the choices people make.","Privacy owner","gdpr-reg-04"),
-      q("GDPR-16","People","Are staff who handle personal data trained and able to report a breach?","Training records and a reporting route.","Train staff on privacy and how to report a breach.","People lead","gdpr-reg-05"),
-      q("GDPR-17","Lawfulness","Where you use legitimate interests, is there a balancing assessment?","A legitimate interests assessment on file.","Record a balancing test wherever you rely on legitimate interests.","Privacy owner","gdpr-tpl-07"),
-      q("GDPR-18","Governance","Is there a data protection policy and a named owner?","An approved policy and a named privacy owner.","Adopt a data protection policy and name who owns it.","Privacy owner","gdpr-pol-01")
-    ]
+  "areas": [
+   "Identity",
+   "Exposure",
+   "Visibility",
+   "Resilience"
+  ],
+  "questions": [
+   {
+    "code": "CI1",
+    "area": "Identity",
+    "title": "Are privileged identities protected with strong authentication?",
+    "check": "Include root/emergency access and recovery methods.",
+    "action": "Protect privileged identities and test the emergency-access procedure.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "CI2",
+    "area": "Identity",
+    "title": "Are workload permissions limited to their actual purpose?",
+    "check": "Review an example service account and its real permission boundary.",
+    "action": "Replace broad permissions with reviewed workload-specific access.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "CI3",
+    "area": "Identity",
+    "title": "Are long-lived secrets managed and rotated?",
+    "check": "Check ownership, storage, expiry and a tested rotation route.",
+    "action": "Move secrets out of code and define revocation/rotation ownership.",
+    "priority": 2,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "CE1",
+    "area": "Exposure",
+    "title": "Is internet-facing exposure intentionally approved?",
+    "check": "Include storage, management endpoints and overly broad ingress.",
+    "action": "Inventory public entry points and document the reason for each.",
+    "priority": 3,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "CE2",
+    "area": "Exposure",
+    "title": "Are trust boundaries represented in the architecture?",
+    "check": "Trace user, service, administrative and data flows.",
+    "action": "Create an architecture diagram with explicit trust boundaries.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "CE3",
+    "area": "Exposure",
+    "title": "Are risky configuration changes detected or reviewed?",
+    "check": "Check both preventive checks and a path for approved exceptions.",
+    "action": "Introduce configuration review and exception handling.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "CV1",
+    "area": "Visibility",
+    "title": "Are administrative events retained in a protected location?",
+    "check": "Check what an administrator could delete or alter.",
+    "action": "Protect audit records and define retention and reviewers.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "CV2",
+    "area": "Visibility",
+    "title": "Can alerts be tied back to an accountable service owner?",
+    "check": "Look for context, ownership and a response route.",
+    "action": "Connect alert routing to the service inventory.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "CV3",
+    "area": "Visibility",
+    "title": "Have logging gaps been exercised safely?",
+    "check": "Check a harmless event through collection, alert and response.",
+    "action": "Test the end-to-end logging path.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "CR1",
+    "area": "Resilience",
+    "title": "Can important data be recovered after account compromise?",
+    "check": "Consider isolation of backups and identity dependencies.",
+    "action": "Exercise a recovery path with compromise in the scenario.",
+    "priority": 3,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "CR2",
+    "area": "Resilience",
+    "title": "Are infrastructure changes reproducible and reversible?",
+    "check": "Inspect a change with a rollback or rebuild plan.",
+    "action": "Record configuration and a practical recovery/rollback process.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "CR3",
+    "area": "Resilience",
+    "title": "Are cloud responsibilities assigned between providers and your team?",
+    "check": "Service models differ; identify what your organization still operates.",
+    "action": "Document the shared-responsibility boundary for critical services.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   }
+  ]
+ },
+ {
+  "id": "ai",
+  "title": "AI & agent security",
+  "shortTitle": "AI & agent security",
+  "tagline": "Review what the agent can do, not just what it says.",
+  "type": "Technical self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 original prompts for AI-enabled applications. No model testing, certification, exhaustive OWASP mapping or legal applicability determination.",
+  "source": {
+   "label": "NIST AI Risk Management Framework",
+   "url": "https://genai.owasp.org/llm-top-10/"
   },
-  {
-    id: "hipaa", title: "HIPAA readiness", shortTitle: "HIPAA",
-    audience: "A covered entity or business associate handling protected health information.",
-    description: "Explore the HIPAA Security, Privacy and Breach Notification Rules through original readiness prompts.",
-    limitation: "Original readiness prompts, not reproduced regulatory text, legal advice or a compliance determination. Read 45 CFR Part 164 and take qualified advice where it matters.",
-    source: {label: "HHS HIPAA for Professionals", url: "https://www.hhs.gov/hipaa/for-professionals/index.html"},
-    questions: [
-      q("HIP-01","Administrative","Have you named a security official responsible for the Security Rule?","A named security official.","Name the person responsible for the Security Rule.","Security owner","hipaa-pol-02"),
-      q("HIP-02","Administrative","Have you performed the required security risk analysis and acted on it?","A security risk analysis and risk-management decisions.","Run the required risk analysis and manage the risks it finds.","Security owner","hipaa-pro-01"),
-      q("HIP-03","Administrative","Do you review access to health data and remove it when roles end?","Access reviews and timely removal records.","Review access to health data and remove leavers promptly.","Access owner","gov-pro-10"),
-      q("HIP-04","Administrative","Do workforce members receive security awareness training?","Training records for the workforce.","Train the workforce on protecting health data.","People lead","gov-pro-08"),
-      q("HIP-05","Administrative","Do you have backup, disaster recovery and emergency mode plans?","Backup, recovery and emergency plans with tests.","Prepare and test the contingency plans.","Recovery owner","gov-pro-13"),
-      q("HIP-06","Administrative","Is there an incident response and reporting process?","An incident process and logged incidents.","Adopt an incident process for health-data events.","Incident owner","gov-pro-07"),
-      q("HIP-07","Technical","Does each user have a unique identifier, with emergency access defined?","Unique IDs and an emergency access procedure.","Give each user a unique ID and define emergency access.","IT owner","gov-pro-10"),
-      q("HIP-08","Technical","Are audit controls recording activity in systems with health data?","Audit logs in systems holding health data.","Record and review activity in systems with health data.","Security owner","gov-pro-14"),
-      q("HIP-09","Technical","Is electronic protected health information encrypted at rest?","Encryption at rest, or a documented alternative.","Encrypt health data at rest, or record the equivalent measure.","Security owner","gov-pro-20"),
-      q("HIP-10","Technical","Is health information encrypted in transit?","Encryption in transit, or a documented alternative.","Encrypt health data in transit, or record the equivalent measure.","Security owner","gov-pro-23"),
-      q("HIP-11","Physical","Are facilities, workstations and devices physically protected?","Facility and workstation controls.","Protect facilities, workstations and devices physically.","Facilities owner","gov-pro-17"),
-      q("HIP-12","Physical","Is media disposed of and re-used so health data cannot be recovered?","Media disposal and re-use records.","Dispose of and wipe media so health data cannot be recovered.","IT owner","gov-pro-16"),
-      q("HIP-13","Organisational","Is there a business associate agreement with every vendor handling health data?","Signed business associate agreements.","Put a business associate agreement in place with each such vendor.","Privacy owner","hipaa-tpl-01"),
-      q("HIP-14","Breach","Can you assess and notify a breach within the sixty-day limit?","A breach procedure and a register.","Prepare the breach procedure and know the sixty-day limit.","Privacy owner","hipaa-pro-02"),
-      q("HIP-15","Privacy","Do you apply the minimum necessary rule and honour individual rights?","Minimum-necessary practice and a rights process.","Limit use to the minimum necessary and honour individual rights.","Privacy owner","hipaa-pol-01"),
-      q("HIP-16","Documentation","Do you keep the required documentation and retain it for six years?","Documentation retained for six years.","Keep the required records and retain them for six years.","Security owner","hipaa-pol-02")
-    ]
+  "areas": [
+   "Purpose",
+   "Data",
+   "Authority",
+   "Evaluation"
+  ],
+  "questions": [
+   {
+    "code": "AP1",
+    "area": "Purpose",
+    "title": "Is each AI use case inventoried with an accountable owner?",
+    "check": "Include embedded assistants and unofficial tools used in workflows.",
+    "action": "Record AI uses, owners and business purpose.",
+    "priority": 2,
+    "kit": "ai-pol-02"
+   },
+   {
+    "code": "AP2",
+    "area": "Purpose",
+    "title": "Are high-impact uses identified before deployment?",
+    "check": "Consider decisions affecting money, access, people or critical operations.",
+    "action": "Identify high-impact actions and set approval boundaries.",
+    "priority": 3,
+    "kit": "ai-pol-02"
+   },
+   {
+    "code": "AP3",
+    "area": "Purpose",
+    "title": "Are acceptable uses and prohibited inputs documented?",
+    "check": "Instructions should match the data and tools staff actually use.",
+    "action": "Define and communicate an AI-use policy.",
+    "priority": 2,
+    "kit": "ai-pol-02"
+   },
+   {
+    "code": "AD1",
+    "area": "Data",
+    "title": "Are sensitive inputs limited to approved systems and purposes?",
+    "check": "Trace prompts, retrieved content, logs and provider retention settings.",
+    "action": "Review AI data flows and allowed input classes.",
+    "priority": 3,
+    "kit": "ai-pro-01"
+   },
+   {
+    "code": "AD2",
+    "area": "Data",
+    "title": "Does retrieval enforce the requesting user’s access?",
+    "check": "A model instruction cannot replace authorization on the retrieved source.",
+    "action": "Test retrieval boundaries for distinct authorized test roles.",
+    "priority": 3,
+    "kit": "ai-pro-01"
+   },
+   {
+    "code": "AD3",
+    "area": "Data",
+    "title": "Can you remove or correct retained AI data where required?",
+    "check": "Identify logs, indexes, caches and provider retention dependencies.",
+    "action": "Document retention/deletion responsibilities and test a scoped case.",
+    "priority": 2,
+    "kit": "ai-pro-01"
+   },
+   {
+    "code": "AA1",
+    "area": "Authority",
+    "title": "Are tool actions authorized outside the model?",
+    "check": "Check the service receiving the action, not only the system prompt.",
+    "action": "Enforce per-action authorization at the downstream service.",
+    "priority": 3,
+    "kit": "ai-pol-01"
+   },
+   {
+    "code": "AA2",
+    "area": "Authority",
+    "title": "Do consequential actions require specific, reviewable approval?",
+    "check": "Approval should be tied to the exact action, subject and scope.",
+    "action": "Bind user approval to the proposed action and prevent replay.",
+    "priority": 3,
+    "kit": "ai-pol-01"
+   },
+   {
+    "code": "AA3",
+    "area": "Authority",
+    "title": "Can agent credentials be revoked quickly?",
+    "check": "Check scopes, lifetimes and incident revocation procedures.",
+    "action": "Minimize token scope and rehearse revocation.",
+    "priority": 2,
+    "kit": "ai-pol-01"
+   },
+   {
+    "code": "AE1",
+    "area": "Evaluation",
+    "title": "Have untrusted-content and instruction-injection cases been tested?",
+    "check": "Use synthetic data and record expected and observed actions.",
+    "action": "Build negative-case tests for input and tool boundaries.",
+    "priority": 2,
+    "kit": "ai-pro-01"
+   },
+   {
+    "code": "AE2",
+    "area": "Evaluation",
+    "title": "Are failures logged without unnecessarily retaining sensitive content?",
+    "check": "Prefer appropriate event context over raw prompt dumps.",
+    "action": "Define a minimal, protected AI event log.",
+    "priority": 2,
+    "kit": "ai-pro-01"
+   },
+   {
+    "code": "AE3",
+    "area": "Evaluation",
+    "title": "Is there a release decision and monitoring owner?",
+    "check": "A promising demonstration is not production acceptance.",
+    "action": "Define acceptance criteria, rollback and ongoing review ownership.",
+    "priority": 2,
+    "kit": "ai-pro-01"
+   }
+  ]
+ },
+ {
+  "id": "response",
+  "title": "SOC & incident readiness",
+  "shortTitle": "SOC & incident readiness",
+  "tagline": "Know who acts when a signal becomes an incident.",
+  "type": "Operations self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 original operational screening prompts. Does not measure incident-response effectiveness or establish 24/7 operational coverage.",
+  "source": {
+   "label": "NIST incident handling guidance",
+   "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
   },
-  {
-    id: "ai-governance", title: "AI governance readiness", shortTitle: "AI governance",
-    audience: "Teams using or building AI features and choosing where to begin governance work.",
-    description: "Explore accountability, intended use, evaluation and operational safeguards through original prompts informed by the NIST AI RMF 1.0 functions.",
-    limitation: "Original preliminary prompts informed by NIST AI RMF 1.0, not the full framework, a legal applicability decision, an AI certification or model-safety validation. Framework updates and jurisdiction-specific requirements need separate review.",
-    source: {label: "NIST AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/"},
-    questions: [
-      q("AI-01","Govern","Is an accountable owner assigned to AI use and its risk decisions?","Named ownership, decision authority and escalation responsibilities.","Assign an accountable owner and clarify when a use needs approval.","AI owner","ai-pol-02"),
-      q("AI-02","Govern","Are acceptable uses and restricted data practices communicated?","An AI-use policy with data and supplier boundaries.","Define permitted uses and data handling before expanding access.","Governance owner","ai-pol-01"),
-      q("AI-03","Govern","Are relevant users and operators prepared to recognize AI limitations?","Role-specific guidance, training and escalation examples.","Explain limitations and the situations that require human judgment.","People lead","ai-pol-01"),
-      q("AI-04","Map","Are the AI systems and third-party models in use inventoried?","An inventory of uses, owners, suppliers and versions where known.","Identify material AI uses, including tools adopted outside engineering.","AI owner","ai-reg-01"),
-      q("AI-05","Map","Are intended use, affected people and foreseeable misuse considered?","A use-case boundary and documented impact/risk questions.","Describe the purpose, affected groups and prohibited or out-of-scope uses.","Product owner","ai-pol-02"),
-      q("AI-06","Map","Are the sources and flows of data into AI services understood?","A data-flow record covering collection, processing and sharing.","Trace sensitive inputs and outputs and resolve unclear supplier handling.","Data owner","ai-pro-01"),
-      q("AI-07","Measure","Is evaluation tied to the intended use rather than a generic demonstration?","Documented evaluation cases, criteria, limitations and results.","Agree suitable evaluation criteria and use authorized, non-sensitive test data.","Evaluation owner","ai-pol-02"),
-      q("AI-08","Measure","Are abuse, disclosure and tool-permission boundaries considered where relevant?","A threat model and scoped tests for relevant AI-system behavior.","Identify risky authority/data boundaries and scope an authorized technical review.","Security owner","ai-pro-01"),
-      q("AI-09","Measure","Are unreliable outputs and affected-user concerns reviewed?","Known limitations, feedback records and investigation outcomes.","Define how unreliable or harmful output is detected, reviewed and escalated.","Product owner","ai-pol-02"),
-      q("AI-10","Manage","Is human review proportionate to the consequence of an AI action?","Review gates, authority limits and override/stop procedures.","Set decision boundaries and verify people can intervene when needed.","Operations owner","ai-pol-02"),
-      q("AI-11","Manage","Are model, prompt, data and supplier changes reviewed before continued use?","Change reviews, reevaluation decisions and version records.","Identify changes that require reevaluation and assign responsibility.","Change owner","ai-reg-03"),
-      q("AI-12","Manage","Is there a process to handle AI-related incidents and reassess risk?","Incident contacts, response procedures and follow-up review.","Extend incident handling to AI-specific failure and data/authority concerns.","Incident owner","ai-pro-03")
-    ]
-  }
+  "areas": [
+   "Signals",
+   "Triage",
+   "Response",
+   "Learning"
+  ],
+  "questions": [
+   {
+    "code": "DS1",
+    "area": "Signals",
+    "title": "Are priority threats linked to the logs you collect?",
+    "check": "Review which business risks your detection use cases address.",
+    "action": "Map a short list of priority threats to necessary data sources.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "DS2",
+    "area": "Signals",
+    "title": "Can you detect missing or stale log sources?",
+    "check": "A quiet dashboard can mean no data rather than no threats.",
+    "action": "Add source-health and data-freshness checks.",
+    "priority": 3,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "DS3",
+    "area": "Signals",
+    "title": "Are alerting rules tested against expected signals?",
+    "check": "Record the test case, expected event and observed result.",
+    "action": "Create a safe detection-validation plan.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "DT1",
+    "area": "Triage",
+    "title": "Does every alert queue have an accountable reviewer?",
+    "check": "Coverage should reflect actual staffing and on-call arrangements.",
+    "action": "Assign triage ownership and make coverage limits explicit.",
+    "priority": 3,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DT2",
+    "area": "Triage",
+    "title": "Are severity and escalation criteria understood?",
+    "check": "Check how a business-critical event reaches a decision-maker.",
+    "action": "Document severity criteria and escalation contacts.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DT3",
+    "area": "Triage",
+    "title": "Can analysts retrieve asset and identity context?",
+    "check": "Identify the owner and purpose of a system implicated in an alert.",
+    "action": "Connect triage to current asset and identity records.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DR1",
+    "area": "Response",
+    "title": "Are containment decisions authorized and documented?",
+    "check": "Know who can disable accounts, isolate hosts or pause services.",
+    "action": "Define response authority before an incident.",
+    "priority": 3,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DR2",
+    "area": "Response",
+    "title": "Are investigation records preserved with appropriate access?",
+    "check": "Include source, timestamps, handling and retention.",
+    "action": "Define evidence-handling and access procedures.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DR3",
+    "area": "Response",
+    "title": "Are communication responsibilities and external obligations reviewed?",
+    "check": "Bring legal, privacy, business and technical owners into planning.",
+    "action": "Review communications and applicable notification duties with qualified owners.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "DL1",
+    "area": "Learning",
+    "title": "Has a realistic tabletop exposed decision gaps?",
+    "check": "Use a fictional scenario and record decision points and follow-up.",
+    "action": "Run a tabletop focused on responsibility and dependencies.",
+    "priority": 2,
+    "kit": "gov-tpl-11"
+   },
+   {
+    "code": "DL2",
+    "area": "Learning",
+    "title": "Are post-incident improvements assigned and tracked?",
+    "check": "Review whether lessons turned into verified changes.",
+    "action": "Create an improvement register with owners and validation.",
+    "priority": 2,
+    "kit": "gov-tpl-11"
+   },
+   {
+    "code": "DL3",
+    "area": "Learning",
+    "title": "Do service owners participate in recovery validation?",
+    "check": "Validate business function, not only whether a server restarts.",
+    "action": "Include business acceptance in recovery exercises.",
+    "priority": 2,
+    "kit": "gov-tpl-11"
+   }
+  ]
+ },
+ {
+  "id": "essentials",
+  "title": "Small business security",
+  "shortTitle": "Small business security",
+  "tagline": "Start with accounts, devices, information and recovery.",
+  "type": "Business self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 original screening prompts for a small organization. Not a CIS audit, an insurance eligibility decision or a measure of attack coverage.",
+  "source": {
+   "label": "NIST small-business resources",
+   "url": "https://www.cisa.gov/secure-our-world"
+  },
+  "areas": [
+   "Accounts",
+   "Devices",
+   "Information",
+   "Recovery"
+  ],
+  "questions": [
+   {
+    "code": "BA1",
+    "area": "Accounts",
+    "title": "Does each person have a separate work account?",
+    "check": "Check shared accounts, administrator access and who can remove access.",
+    "action": "Replace shared everyday logins where possible and assign account owners.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "BA2",
+    "area": "Accounts",
+    "title": "Is strong multifactor authentication used on important accounts?",
+    "check": "Start with email, administration, finance and remote access. Prefer phishing-resistant methods where supported.",
+    "action": "Enable strong MFA on priority accounts and protect recovery methods.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "BA3",
+    "area": "Accounts",
+    "title": "Are passwords unique and stored in an approved password manager?",
+    "check": "Do not collect or paste actual passwords. Review the process and account coverage.",
+    "action": "Adopt a password manager and replace reused work passwords.",
+    "priority": 2,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "BD1",
+    "area": "Devices",
+    "title": "Are work devices and software inventoried?",
+    "check": "Include personal devices allowed to access work information and hosted services.",
+    "action": "List work devices, software and their support owners.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "BD2",
+    "area": "Devices",
+    "title": "Are supported systems updated within an agreed timeframe?",
+    "check": "Check recent examples and how urgent security updates are handled.",
+    "action": "Assign patch ownership and replace unsupported software.",
+    "priority": 3,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "BD3",
+    "area": "Devices",
+    "title": "Are lost devices protected and removable from work access?",
+    "check": "Review encryption, screen locks and the process for revoking a lost device.",
+    "action": "Enable appropriate device protections and rehearse access removal.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "BI1",
+    "area": "Information",
+    "title": "Can staff recognize and report suspicious messages?",
+    "check": "Ask how an unexpected payment request or login link is verified.",
+    "action": "Provide a simple reporting route and practise a safe phishing example.",
+    "priority": 3,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "BI2",
+    "area": "Information",
+    "title": "Is sensitive information shared only with intended people?",
+    "check": "Review public links, shared folders and unnecessary external access.",
+    "action": "Review sharing settings and remove unnecessary access.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "BI3",
+    "area": "Information",
+    "title": "Are supplier and former-worker accounts reviewed?",
+    "check": "Consider the access still needed after a contract or role changes.",
+    "action": "Review third-party access and document offboarding.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "BR1",
+    "area": "Recovery",
+    "title": "Are important records backed up independently of the primary account?",
+    "check": "Consider what happens if the everyday administrator account is compromised.",
+    "action": "Protect an independent recovery copy and restrict its administration.",
+    "priority": 3,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BR2",
+    "area": "Recovery",
+    "title": "Has someone successfully restored an important record?",
+    "check": "Record what was restored, when and whether it was usable.",
+    "action": "Run a small, authorized restore test and document the result.",
+    "priority": 3,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BR3",
+    "area": "Recovery",
+    "title": "Does everyone know who to contact during a suspected incident?",
+    "check": "Contacts must remain available when email or the primary device is unavailable.",
+    "action": "Maintain an offline incident contact and decision checklist.",
+    "priority": 2,
+    "kit": "gov-pro-12"
+   }
+  ]
+ },
+ {
+  "id": "api",
+  "title": "Web & API release readiness",
+  "shortTitle": "Web & API release readiness",
+  "tagline": "Review access boundaries, inputs, delivery and operating visibility.",
+  "type": "Engineering self-check",
+  "minutes": "5 to 7",
+  "limitation": "12 original pre-release screening questions. Not the complete OWASP API Top 10, ASVS or WSTG, and not a performed penetration test.",
+  "source": {
+   "label": "OWASP API Security Project",
+   "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/"
+  },
+  "areas": [
+   "Identity",
+   "Data",
+   "Delivery",
+   "Visibility"
+  ],
+  "questions": [
+   {
+    "code": "WI1",
+    "area": "Identity",
+    "title": "Is permission checked for each requested object and action?",
+    "check": "Compare expected access for distinct users, tenants and privileged roles.",
+    "action": "Plan positive and negative authorization tests for key operations.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "WI2",
+    "area": "Identity",
+    "title": "Are session and token lifecycle decisions defined?",
+    "check": "Separate logout, expiry, role changes and emergency revocation.",
+    "action": "Document intended authority changes and test representative lifecycle cases.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "WI3",
+    "area": "Identity",
+    "title": "Do recovery and enrollment flows receive security review?",
+    "check": "Include password reset, MFA recovery and invitations.",
+    "action": "Review recovery flows alongside the main sign-in path.",
+    "priority": 2,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "WD1",
+    "area": "Data",
+    "title": "Are accepted inputs and writable fields explicitly defined?",
+    "check": "Check server-side validation, unexpected fields and property-level authorization.",
+    "action": "Define input schemas and test unauthorized field updates.",
+    "priority": 3,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "WD2",
+    "area": "Data",
+    "title": "Are returned fields limited to what the caller may see?",
+    "check": "Compare output for different roles and remove unnecessary sensitive properties.",
+    "action": "Review response schemas and field-level disclosure.",
+    "priority": 2,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "WD3",
+    "area": "Data",
+    "title": "Are backend fetches and third-party responses bounded?",
+    "check": "Review destination restrictions, redirects, timeouts, size limits and response validation.",
+    "action": "Constrain outbound requests and validate external responses.",
+    "priority": 3,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "WR1",
+    "area": "Delivery",
+    "title": "Are all deployed API versions and environments inventoried?",
+    "check": "Include old endpoints, staging systems and undocumented integrations.",
+    "action": "Maintain an endpoint inventory and retirement plan.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "WR2",
+    "area": "Delivery",
+    "title": "Are secrets kept out of source, client bundles and logs?",
+    "check": "Use synthetic samples for review. Trace credential storage and rotation.",
+    "action": "Review secret handling and rotate any confirmed exposed credentials.",
+    "priority": 3,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "WR3",
+    "area": "Delivery",
+    "title": "Are dependency and configuration changes reviewed before release?",
+    "check": "Record the version, relevant advisories and approved deployment settings.",
+    "action": "Add dependency and configuration review to the release checklist.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "WV1",
+    "area": "Visibility",
+    "title": "Are resource usage and high-value workflows rate-limited?",
+    "check": "Consider expensive operations, account recovery and business-sensitive actions.",
+    "action": "Set limits and test predictable failure behavior under authorized conditions.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "WV2",
+    "area": "Visibility",
+    "title": "Are authorization failures and abuse signals recorded appropriately?",
+    "check": "Avoid recording raw tokens, personal records or complete request bodies unnecessarily.",
+    "action": "Define actionable security events and appropriate retention.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   },
+   {
+    "code": "WV3",
+    "area": "Visibility",
+    "title": "Is there a scoped retest and rollback decision?",
+    "check": "A successful deployment is not evidence that a security fix worked.",
+    "action": "Record representative retest cases, release acceptance and rollback ownership.",
+    "priority": 2,
+    "kit": "gov-pro-14"
+   }
+  ]
+ },
+ {
+  "id": "vendor",
+  "title": "Supplier security review",
+  "shortTitle": "Supplier security review",
+  "tagline": "Turn a supplier questionnaire into a scoped decision.",
+  "type": "Assurance self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 original supplier review prompts. No vendor certification, contract approval or complete supply-chain assessment is implied.",
+  "source": {
+   "label": "NIST supply-chain risk guidance",
+   "url": "https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final"
+  },
+  "areas": [
+   "Scope",
+   "Access",
+   "Evidence",
+   "Continuity"
+  ],
+  "questions": [
+   {
+    "code": "VS1",
+    "area": "Scope",
+    "title": "Is the service boundary and business owner identified?",
+    "check": "Record the actual product, contracting entity and intended use.",
+    "action": "Define the supplier service and accountable business owner.",
+    "priority": 2,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VS2",
+    "area": "Scope",
+    "title": "Are shared data types and processing locations understood?",
+    "check": "Include transfers, integrations and relevant subprocessors.",
+    "action": "Map the supplier data flow and unresolved location questions.",
+    "priority": 3,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VS3",
+    "area": "Scope",
+    "title": "Is the service impact assessed if it becomes unavailable?",
+    "check": "Consider operational dependency rather than only the purchase price.",
+    "action": "Assign a criticality rating with a stated business reason.",
+    "priority": 2,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VA1",
+    "area": "Access",
+    "title": "Is supplier access limited to the necessary systems and actions?",
+    "check": "Review administrator rights, remote access and shared credentials.",
+    "action": "Minimize supplier access and identify its approving owner.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "VA2",
+    "area": "Access",
+    "title": "Are authentication and access reviews part of the arrangement?",
+    "check": "Check MFA, privileged access and review responsibilities.",
+    "action": "Agree access controls and a periodic review process.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "VA3",
+    "area": "Access",
+    "title": "Can access be revoked at contract end or during an incident?",
+    "check": "Cover API credentials, accounts, integrations and delegated access.",
+    "action": "Document termination and emergency revocation steps.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "VE1",
+    "area": "Evidence",
+    "title": "Does supplied assurance evidence cover the relevant service and period?",
+    "check": "Check scope, exclusions, dates and the difference between readiness and independent assurance.",
+    "action": "Map each assurance statement to the evidence that supports it.",
+    "priority": 3,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VE2",
+    "area": "Evidence",
+    "title": "Are unresolved answers tracked with owners and decisions?",
+    "check": "Do not convert an unanswered question into an affirmative control statement.",
+    "action": "Maintain a supplier gap register with decision owners.",
+    "priority": 2,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VE3",
+    "area": "Evidence",
+    "title": "Are incident and change notification responsibilities understood?",
+    "check": "Contractual and legal duties need qualified review in the relevant context.",
+    "action": "Review notification routes, responsibilities and contractual commitments.",
+    "priority": 2,
+    "kit": "gov-pro-06"
+   },
+   {
+    "code": "VC1",
+    "area": "Continuity",
+    "title": "Has a recovery capability relevant to this service been reviewed?",
+    "check": "Review evidence of tests and dependencies rather than relying only on a written policy.",
+    "action": "Request appropriate recovery evidence and record remaining uncertainty.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "VC2",
+    "area": "Continuity",
+    "title": "Can your data be returned or deleted when the relationship ends?",
+    "check": "Check usable formats, timing, retained backups and deletion responsibilities.",
+    "action": "Agree an exit and data-handling plan.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "VC3",
+    "area": "Continuity",
+    "title": "Is a reassessment triggered by material changes?",
+    "check": "Examples include a new data category, incident or major service change.",
+    "action": "Define review dates and event-based reassessment triggers.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   }
+  ]
+ },
+ {
+  "id": "recovery",
+  "title": "Backup & recovery readiness",
+  "shortTitle": "Backup & recovery readiness",
+  "tagline": "Check whether recovery expectations match tested capability.",
+  "type": "Resilience self-check",
+  "minutes": "4 to 6",
+  "limitation": "12 original resilience screening questions. Not a complete business continuity audit, disaster recovery test or guarantee of restoration.",
+  "source": {
+   "label": "NIST contingency planning guidance",
+   "url": "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final"
+  },
+  "areas": [
+   "Priorities",
+   "Copies",
+   "Restoration",
+   "Coordination"
+  ],
+  "questions": [
+   {
+    "code": "BP1",
+    "area": "Priorities",
+    "title": "Have business owners identified the services that must recover first?",
+    "check": "Include dependencies such as identity, networking, data and external suppliers.",
+    "action": "Create a recovery priority list with business owners.",
+    "priority": 3,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "BP2",
+    "area": "Priorities",
+    "title": "Are acceptable downtime and data-loss targets defined?",
+    "check": "Recovery time and recovery point objectives are targets, not automatically achieved capabilities.",
+    "action": "Agree service-specific recovery time and recovery point objectives.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "BP3",
+    "area": "Priorities",
+    "title": "Do recovery plans cover key configuration and identity systems?",
+    "check": "Restoring files may not restore the service that uses them.",
+    "action": "List required configurations, keys, accounts and dependencies.",
+    "priority": 2,
+    "kit": "gov-pro-13"
+   },
+   {
+    "code": "BC1",
+    "area": "Copies",
+    "title": "Are backup jobs and failures actively checked?",
+    "check": "A configured schedule does not show that a usable copy exists.",
+    "action": "Assign backup monitoring and failure follow-up.",
+    "priority": 3,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BC2",
+    "area": "Copies",
+    "title": "Are recovery copies protected from the primary administrator compromise?",
+    "check": "Review separate credentials, deletion controls and appropriate isolation.",
+    "action": "Protect backup access and deletion boundaries.",
+    "priority": 3,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BC3",
+    "area": "Copies",
+    "title": "Are backup encryption and key-recovery arrangements understood?",
+    "check": "An encrypted backup is unusable if its required key is unavailable.",
+    "action": "Document protected key access and recovery responsibilities.",
+    "priority": 2,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BT1",
+    "area": "Restoration",
+    "title": "Has a representative restore been completed recently?",
+    "check": "Record the source, time, target, dependencies and observed result.",
+    "action": "Run an authorized restore exercise and retain its findings.",
+    "priority": 3,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BT2",
+    "area": "Restoration",
+    "title": "Does a service owner check usability after restoration?",
+    "check": "Verify important business transactions and data consistency.",
+    "action": "Define business acceptance tests for a restored service.",
+    "priority": 2,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BT3",
+    "area": "Restoration",
+    "title": "Are recovery-time measurements compared with agreed targets?",
+    "check": "Separate measured exercise results from planning assumptions.",
+    "action": "Record actual recovery times and any required improvements.",
+    "priority": 2,
+    "kit": "gov-pro-12"
+   },
+   {
+    "code": "BO1",
+    "area": "Coordination",
+    "title": "Can the team access the recovery runbook during an outage?",
+    "check": "Do not depend entirely on the system that may be unavailable.",
+    "action": "Maintain a protected alternative copy of contacts and recovery instructions.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "BO2",
+    "area": "Coordination",
+    "title": "Are authority and communication routes rehearsed?",
+    "check": "Know who can authorize restoration, temporary service restrictions and public updates.",
+    "action": "Rehearse recovery decisions in a fictional tabletop.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "BO3",
+    "area": "Coordination",
+    "title": "Are lessons and system changes reflected in the plan?",
+    "check": "Follow up on failed tests and changed infrastructure.",
+    "action": "Assign improvements and update the next exercise scope.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   }
+  ]
+ },
+ {
+  "id": "delivery",
+  "title": "Secure software delivery",
+  "shortTitle": "Secure software delivery",
+  "tagline": "Connect design, dependencies, releases and remediation.",
+  "type": "Engineering readiness",
+  "minutes": "5 to 7",
+  "limitation": "12 original software-delivery prompts. Not a source-code review, penetration test, supplier attestation or complete implementation of the NIST SSDF.",
+  "source": {
+   "label": "OWASP secure software development",
+   "url": "https://csrc.nist.gov/projects/ssdf"
+  },
+  "areas": [
+   "Design",
+   "Build",
+   "Release",
+   "Response"
+  ],
+  "questions": [
+   {
+    "code": "SD1",
+    "area": "Design",
+    "title": "Are important trust boundaries recorded before implementation?",
+    "check": "Choose one workflow and identify actors, services, data stores and changes in trust.",
+    "action": "Create a lightweight threat model with owners for open assumptions.",
+    "priority": 3,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "SD2",
+    "area": "Design",
+    "title": "Are authentication and authorization decisions specified separately?",
+    "check": "Document both who an actor is and what that actor may do to each object or operation.",
+    "action": "Add role, object and negative authorization cases to the design.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "SD3",
+    "area": "Design",
+    "title": "Are security requirements tied to misuse or failure cases?",
+    "check": "Look for testable behavior rather than broad statements such as secure by design.",
+    "action": "Write specific deny, failure and recovery acceptance criteria.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "SB4",
+    "area": "Build",
+    "title": "Are source changes reviewed before they reach a protected branch?",
+    "check": "Review current branch controls, reviewer expectations and emergency paths.",
+    "action": "Define review and protected-branch rules for the scoped repository.",
+    "priority": 3,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "SB5",
+    "area": "Build",
+    "title": "Are third-party components inventoried with accountable owners?",
+    "check": "Include direct, transitive, build and runtime dependencies for the release.",
+    "action": "Create a release-specific dependency inventory and review owner.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "SB6",
+    "area": "Build",
+    "title": "Are build credentials and artifacts protected from ordinary developer access?",
+    "check": "Inspect signing, publishing, secret scope and artifact provenance boundaries.",
+    "action": "Reduce build credential scope and document artifact integrity checks.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "SR4",
+    "area": "Release",
+    "title": "Do release checks cover high-risk security behavior?",
+    "check": "Use synthetic negative cases for permissions, session lifecycle, input handling and logging.",
+    "action": "Add a bounded security release gate with recorded outcomes.",
+    "priority": 3,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SR5",
+    "area": "Release",
+    "title": "Can the deployed version be connected to reviewed source and dependencies?",
+    "check": "Check identifiers, manifests and immutable artifact references.",
+    "action": "Record a traceable release manifest and approved exception route.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SR6",
+    "area": "Release",
+    "title": "Are rollback and feature-disable decisions rehearsed?",
+    "check": "Confirm authority, dependencies, data compatibility and communication.",
+    "action": "Run a safe release-recovery exercise and retain the decision record.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "SX1",
+    "area": "Response",
+    "title": "Can a reported weakness reach the right engineering owner?",
+    "check": "Review the intake route, triage authority and acknowledgement expectations.",
+    "action": "Publish a vulnerability intake and escalation route.",
+    "priority": 3,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "SX2",
+    "area": "Response",
+    "title": "Are remediation priorities based on context as well as a severity label?",
+    "check": "Consider exploit conditions, reachability, business role and compensating controls.",
+    "action": "Record a contextual remediation rationale and target date.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   },
+   {
+    "code": "SX3",
+    "area": "Response",
+    "title": "Does retesting verify the failed control and affected variants?",
+    "check": "A closed ticket or changed line is not evidence that the boundary now holds.",
+    "action": "Define positive, negative and regression retest cases.",
+    "priority": 2,
+    "kit": "gov-pro-07"
+   }
+  ]
+ },
+ {
+  "id": "identity",
+  "title": "Identity & privileged access",
+  "shortTitle": "Identity & privileged access",
+  "tagline": "Trace authority from approval through revocation.",
+  "type": "Identity readiness",
+  "minutes": "5 to 7",
+  "limitation": "12 original identity-governance prompts. Not an identity-provider scan, zero-trust certification or complete NIST digital-identity assessment.",
+  "source": {
+   "label": "NIST digital identity guidance",
+   "url": "https://csrc.nist.gov/pubs/sp/800/63/4/final"
+  },
+  "areas": [
+   "Inventory",
+   "Authentication",
+   "Privilege",
+   "Lifecycle"
+  ],
+  "questions": [
+   {
+    "code": "II1",
+    "area": "Inventory",
+    "title": "Are human, service and emergency identities owned?",
+    "check": "Include accounts outside the central directory and non-human credentials.",
+    "action": "Build a scoped identity inventory with accountable owners.",
+    "priority": 3,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "II2",
+    "area": "Inventory",
+    "title": "Can important permissions be explained in business terms?",
+    "check": "Trace a sample role or group to approved responsibilities and systems.",
+    "action": "Map high-impact permissions to purpose and approver.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "II3",
+    "area": "Inventory",
+    "title": "Are unmanaged or shared accounts identified?",
+    "check": "Look for accounts without an individual or system owner and an approved use case.",
+    "action": "Remove, replace or explicitly govern unmanaged identities.",
+    "priority": 2,
+    "kit": "gov-pro-16"
+   },
+   {
+    "code": "IA1",
+    "area": "Authentication",
+    "title": "Is phishing-resistant authentication prioritized for high-impact access?",
+    "check": "Review administrators, remote access, recovery and sensitive workflows.",
+    "action": "Plan stronger authenticators for the highest-impact access paths.",
+    "priority": 3,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "IA2",
+    "area": "Authentication",
+    "title": "Are account-recovery paths at least as well protected as sign-in?",
+    "check": "Inspect help-desk, fallback and device-replacement paths.",
+    "action": "Test and strengthen recovery identity checks.",
+    "priority": 2,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "IA3",
+    "area": "Authentication",
+    "title": "Are session lifetime and reauthentication decisions explicit?",
+    "check": "Consider sensitive actions, idle time, device loss and authority changes.",
+    "action": "Define and test session renewal and termination behavior.",
+    "priority": 2,
+    "kit": "gov-pol-06"
+   },
+   {
+    "code": "IP1",
+    "area": "Privilege",
+    "title": "Is privileged access separate from routine work?",
+    "check": "Check administrator accounts, workstations, approval and monitoring.",
+    "action": "Separate routine and privileged identities with bounded use.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IP2",
+    "area": "Privilege",
+    "title": "Are temporary privileges time-bounded and reviewed?",
+    "check": "Inspect activation, expiry, extension and emergency access records.",
+    "action": "Introduce expiring privilege with named approval.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IP3",
+    "area": "Privilege",
+    "title": "Can consequential service identities act beyond their purpose?",
+    "check": "Review workload roles, tokens, secrets and downstream authorization.",
+    "action": "Reduce service authority and add downstream policy checks.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IL1",
+    "area": "Lifecycle",
+    "title": "Are joiner, mover and leaver changes linked to authoritative events?",
+    "check": "Sample timing, exceptions and systems outside automation.",
+    "action": "Assign owners for lifecycle events and exception follow-up.",
+    "priority": 3,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IL2",
+    "area": "Lifecycle",
+    "title": "Does revocation end active authority as intended?",
+    "check": "Test sessions, refresh tokens, API keys and cached access in a controlled case.",
+    "action": "Run a scoped revocation test and record remaining access.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   },
+   {
+    "code": "IL3",
+    "area": "Lifecycle",
+    "title": "Are access reviews focused on meaningful decisions?",
+    "check": "Reviewers need context, conflicts and an effective removal path.",
+    "action": "Provide role context and verify a removal from review to enforcement.",
+    "priority": 2,
+    "kit": "gov-pro-10"
+   }
+  ]
+ },
+ {
+  "id": "mobile",
+  "title": "Mobile release readiness",
+  "shortTitle": "Mobile release readiness",
+  "tagline": "Review the application, API and device boundary together.",
+  "type": "Release readiness",
+  "minutes": "5 to 7",
+  "limitation": "12 original mobile-release prompts. Not an OWASP MAS checklist, source review, device test or app-store approval.",
+  "source": {
+   "label": "OWASP Mobile Security Project",
+   "url": "https://mas.owasp.org/"
+  },
+  "areas": [
+   "Data",
+   "Platform",
+   "API",
+   "Release"
+  ],
+  "questions": [
+   {
+    "code": "MD1",
+    "area": "Data",
+    "title": "Is sensitive data minimized on the device?",
+    "check": "Trace cached records, logs, screenshots, notifications and backups.",
+    "action": "Remove unnecessary device data and document remaining retention.",
+    "priority": 3,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "MD2",
+    "area": "Data",
+    "title": "Are secrets excluded from the application package and logs?",
+    "check": "Inspect build configuration and a representative release artifact in an authorized environment.",
+    "action": "Move secrets to appropriate server-side or protected mechanisms.",
+    "priority": 2,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "MD3",
+    "area": "Data",
+    "title": "Are local data protections matched to realistic device threats?",
+    "check": "Consider lock state, backup, shared storage and rooted-device assumptions.",
+    "action": "Document and test the local protection boundary.",
+    "priority": 2,
+    "kit": "gov-pro-20"
+   },
+   {
+    "code": "MP1",
+    "area": "Platform",
+    "title": "Are exported components and deep links intentionally exposed?",
+    "check": "Review handlers, intent filters, URL schemes and caller validation.",
+    "action": "Restrict component exposure and test untrusted invocation.",
+    "priority": 3,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "MP2",
+    "area": "Platform",
+    "title": "Are platform permissions limited to the feature need?",
+    "check": "Compare requested permissions with active functionality and user explanations.",
+    "action": "Remove unused permissions and justify sensitive access.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "MP3",
+    "area": "Platform",
+    "title": "Does the application fail safely when platform trust changes?",
+    "check": "Review certificate, device-integrity and dependency assumptions without treating them as authorization.",
+    "action": "Define safe fallback and server-side enforcement.",
+    "priority": 2,
+    "kit": "gov-chk-02"
+   },
+   {
+    "code": "MA1",
+    "area": "API",
+    "title": "Does the server enforce object and function permission for every mobile role?",
+    "check": "A mobile interface restriction does not protect an API operation.",
+    "action": "Add server-side positive and negative authorization tests.",
+    "priority": 3,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "MA2",
+    "area": "API",
+    "title": "Can tokens and sessions be revoked after logout or device loss?",
+    "check": "Test refresh behavior and protected actions after the event.",
+    "action": "Define and test mobile session termination conditions.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "MA3",
+    "area": "API",
+    "title": "Are transport and certificate decisions deployable without unsafe bypasses?",
+    "check": "Review debug exceptions, proxies, certificate changes and recovery.",
+    "action": "Remove release bypasses and document certificate-change handling.",
+    "priority": 2,
+    "kit": "gov-pro-11"
+   },
+   {
+    "code": "MR1",
+    "area": "Release",
+    "title": "Are debug features and test endpoints excluded from release builds?",
+    "check": "Use reproducible release configuration and artifact inspection.",
+    "action": "Add release checks for flags, endpoints and diagnostic data.",
+    "priority": 3,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "MR2",
+    "area": "Release",
+    "title": "Can a vulnerable mobile version be contained or retired?",
+    "check": "Consider forced update, server compatibility and customer communication.",
+    "action": "Define version support and emergency containment decisions.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   },
+   {
+    "code": "MR3",
+    "area": "Release",
+    "title": "Are privacy and security claims consistent with actual behavior?",
+    "check": "Compare notices, permissions, SDKs and observed data flows.",
+    "action": "Reconcile public claims with the reviewed release behavior.",
+    "priority": 2,
+    "kit": "gov-pro-09"
+   }
+  ]
+ },
+ {
+  "id": "privacy",
+  "title": "Data protection operations",
+  "shortTitle": "Data protection operations",
+  "tagline": "Turn data promises into owned, testable work.",
+  "type": "Privacy operations",
+  "minutes": "5 to 7",
+  "limitation": "12 original operational prompts. Not legal advice, a regulatory opinion, a privacy impact assessment or complete NIST Privacy Framework profile.",
+  "source": {
+   "label": "GDPR text and EDPB guidance",
+   "url": "https://www.nist.gov/privacy-framework"
+  },
+  "areas": [
+   "Purpose",
+   "Inventory",
+   "Rights",
+   "Incidents"
+  ],
+  "questions": [
+   {
+    "code": "DP1",
+    "area": "Purpose",
+    "title": "Is each sensitive-data use connected to a defined purpose and owner?",
+    "check": "Choose a workflow and compare collection with the decision it supports.",
+    "action": "Record the purpose, owner and data minimization decision.",
+    "priority": 3,
+    "kit": "gdpr-reg-01"
+   },
+   {
+    "code": "DP2",
+    "area": "Purpose",
+    "title": "Are high-impact automated decisions reviewed for people and context?",
+    "check": "Consider inputs, error, contestability and human responsibility.",
+    "action": "Define review and escalation for consequential decisions.",
+    "priority": 2,
+    "kit": "gdpr-reg-01"
+   },
+   {
+    "code": "DP3",
+    "area": "Purpose",
+    "title": "Are new uses or disclosures reviewed before launch?",
+    "check": "Include analytics, AI features, vendors and cross-border dependencies.",
+    "action": "Add a change trigger and accountable review.",
+    "priority": 2,
+    "kit": "gdpr-reg-01"
+   },
+   {
+    "code": "DI1",
+    "area": "Inventory",
+    "title": "Can the organization trace important personal data across systems and suppliers?",
+    "check": "Follow collection, transformation, sharing, retention and deletion.",
+    "action": "Build a scoped data-flow and dependency inventory.",
+    "priority": 3,
+    "kit": "pims-reg-01"
+   },
+   {
+    "code": "DI2",
+    "area": "Inventory",
+    "title": "Are retention rules implemented rather than only documented?",
+    "check": "Inspect deletion jobs, archives, backups, exceptions and evidence.",
+    "action": "Test one retention rule from source through deletion evidence.",
+    "priority": 2,
+    "kit": "pims-reg-01"
+   },
+   {
+    "code": "DI3",
+    "area": "Inventory",
+    "title": "Are test and analytics datasets governed like their source data?",
+    "check": "Review copied, masked, synthetic and exported datasets.",
+    "action": "Reduce or protect non-production personal data.",
+    "priority": 2,
+    "kit": "pims-reg-01"
+   },
+   {
+    "code": "DR1",
+    "area": "Rights",
+    "title": "Can a verified request reach all relevant systems?",
+    "check": "Trace identity checks, search, exceptions, deadlines and approval.",
+    "action": "Run a synthetic request and record coverage gaps.",
+    "priority": 3,
+    "kit": "pims-pro-03"
+   },
+   {
+    "code": "DR2",
+    "area": "Rights",
+    "title": "Are correction and deletion decisions consistently recorded?",
+    "check": "Review ownership, downstream propagation and lawful exceptions with qualified advice.",
+    "action": "Create a decision record and downstream follow-up.",
+    "priority": 2,
+    "kit": "pims-pro-03"
+   },
+   {
+    "code": "DR3",
+    "area": "Rights",
+    "title": "Can people understand the important use without reading internal architecture?",
+    "check": "Compare actual behavior with notices and consent choices.",
+    "action": "Rewrite unclear explanations and validate the user path.",
+    "priority": 2,
+    "kit": "pims-pro-03"
+   },
+   {
+    "code": "DN1",
+    "area": "Incidents",
+    "title": "Can an incident team determine whose data may be affected?",
+    "check": "Check inventory, logs, vendor records and decision authority.",
+    "action": "Add privacy facts and roles to incident triage.",
+    "priority": 3,
+    "kit": "pims-pro-04"
+   },
+   {
+    "code": "DN2",
+    "area": "Incidents",
+    "title": "Are notification decisions evidence-linked and reviewed?",
+    "check": "Record facts, uncertainty, applicable advice and timing without guessing obligations.",
+    "action": "Create an incident decision timeline with qualified review.",
+    "priority": 2,
+    "kit": "pims-pro-04"
+   },
+   {
+    "code": "DN3",
+    "area": "Incidents",
+    "title": "Do exercises include customer, employee and supplier data scenarios?",
+    "check": "Test dependencies, communication and follow-up ownership.",
+    "action": "Run a fictional privacy incident tabletop and assign actions.",
+    "priority": 2,
+    "kit": "pims-pro-04"
+   }
+  ]
+ },
+ {
+  "id": "culture",
+  "title": "Security culture & role readiness",
+  "shortTitle": "Security culture & role readiness",
+  "tagline": "Measure whether people can make the needed decision.",
+  "type": "People readiness",
+  "minutes": "5 to 7",
+  "limitation": "12 original people-readiness prompts. Not an employee-performance rating, psychometric measure, certification or proof of reduced incident likelihood.",
+  "source": {
+   "label": "NIST security awareness guidance",
+   "url": "https://www.cisa.gov/resources-tools/resources/cybersecurity-awareness-program-toolkit"
+  },
+  "areas": [
+   "Roles",
+   "Learning",
+   "Practice",
+   "Feedback"
+  ],
+  "questions": [
+   {
+    "code": "CR1",
+    "area": "Roles",
+    "title": "Do people know the security decisions expected in their role?",
+    "check": "Use concrete actions for engineers, managers, support staff and leaders.",
+    "action": "Define role-specific security decisions and escalation routes.",
+    "priority": 3,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "CR2",
+    "area": "Roles",
+    "title": "Can managers explain who accepts risk and exceptions?",
+    "check": "Review a recent exception or deferred action.",
+    "action": "Document risk and exception authority.",
+    "priority": 2,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "CR3",
+    "area": "Roles",
+    "title": "Are security responsibilities included when roles change?",
+    "check": "Check onboarding, promotion, contractor and supplier transitions.",
+    "action": "Add role-change security briefings and ownership.",
+    "priority": 2,
+    "kit": "gov-pol-01"
+   },
+   {
+    "code": "CL1",
+    "area": "Learning",
+    "title": "Does training use scenarios people actually encounter?",
+    "check": "Compare exercises with access, data, engineering and incident decisions.",
+    "action": "Replace generic content with role-relevant practice.",
+    "priority": 3,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CL2",
+    "area": "Learning",
+    "title": "Can participants explain why an answer is safer?",
+    "check": "Completion alone does not establish transferable judgment.",
+    "action": "Add rationale, reflection and a follow-up task.",
+    "priority": 2,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CL3",
+    "area": "Learning",
+    "title": "Are accessibility, language and time constraints addressed?",
+    "check": "Review delivery formats and the ability to ask for help.",
+    "action": "Adapt training access and provide alternative formats.",
+    "priority": 2,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CP1",
+    "area": "Practice",
+    "title": "Do teams rehearse ambiguous situations without harming real systems?",
+    "check": "Use synthetic evidence, clear boundaries and safe injects.",
+    "action": "Schedule a bounded scenario with a facilitator and observers.",
+    "priority": 3,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CP2",
+    "area": "Practice",
+    "title": "Are technical and executive decisions exercised together?",
+    "check": "Trace containment, service impact, communication and risk ownership.",
+    "action": "Include cross-functional decision points in the next exercise.",
+    "priority": 2,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CP3",
+    "area": "Practice",
+    "title": "Does each exercise end with owned improvements?",
+    "check": "Look for due dates, dependencies and a later validation step.",
+    "action": "Maintain an after-action register and retest plan.",
+    "priority": 2,
+    "kit": "gov-pro-08"
+   },
+   {
+    "code": "CF1",
+    "area": "Feedback",
+    "title": "Can people report mistakes and suspicious activity without fear or delay?",
+    "check": "Inspect reporting routes, acknowledgement and learning culture.",
+    "action": "Clarify safe reporting and timely feedback.",
+    "priority": 3,
+    "kit": "gov-pro-04"
+   },
+   {
+    "code": "CF2",
+    "area": "Feedback",
+    "title": "Are training needs informed by incidents and control changes?",
+    "check": "Use trends carefully; do not expose or rank individuals.",
+    "action": "Translate lessons into targeted role-based practice.",
+    "priority": 2,
+    "kit": "gov-pro-04"
+   },
+   {
+    "code": "CF3",
+    "area": "Feedback",
+    "title": "Is programme success measured beyond attendance and clicks?",
+    "check": "Consider decision quality, response time, unresolved barriers and retest outcomes.",
+    "action": "Choose outcome measures with privacy and interpretation limits.",
+    "priority": 2,
+    "kit": "gov-pro-04"
+   }
+  ]
+ }
 ];

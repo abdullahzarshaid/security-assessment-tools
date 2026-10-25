@@ -12,7 +12,7 @@
 
 ![Security and Compliance Self-Assessment](assets/social-preview.png)
 
-Seven readiness assessments, from a plain-language starting point to framework-aligned reviews. You rate each prompt on a five-point, evidence-based scale, and the tool shows you where you stand by area, lists the highest-impact gaps first, and links every gap to an open remediation template you can actually use.
+Fifteen readiness assessments, from a plain-language starting point to framework-aligned and technical reviews. You rate each prompt on a five-point, evidence-based scale, and the tool shows you where you stand by area, lists the highest-impact gaps first, and links every gap to an open remediation template you can actually use.
 
 ## Why this one is different
 
@@ -25,13 +25,23 @@ Seven readiness assessments, from a plain-language starting point to framework-a
 
 | Assessment | Prompts | Starting point for |
 |---|---|---|
-| Security fundamentals | 12 | Any small business or product team |
-| NIST CSF 2.0 readiness | 24 | Organising a programme around the six CSF functions |
-| ISO 27001 preparation | 12 | Defining or improving an ISMS |
-| SOC 2 evidence readiness | 12 | A service organization heading into a SOC 2 examination |
-| GDPR readiness | 18 | Any team that processes personal data |
-| HIPAA readiness | 16 | A covered entity or business associate handling health data |
-| AI governance readiness | 12 | Teams using or building AI features |
+| NIST CSF 2.0 | 18 | Organising a programme around the six CSF functions |
+| ISO 27001 readiness | 12 | Defining or improving an ISMS |
+| SOC 2 preparation | 12 | A service organization heading into a SOC 2 examination |
+| Cloud & identity | 12 | Permissions, exposure and recovery in the cloud |
+| AI & agent security | 12 | Teams using or building AI features |
+| SOC & incident readiness | 12 | Detection, triage and response |
+| Small business security | 12 | Any small business or product team |
+| Web & API release readiness | 12 | Shipping a web or API change safely |
+| Supplier security review | 12 | Assessing a vendor that handles your data |
+| Backup & recovery readiness | 12 | Proving you can actually restore |
+| Secure software delivery | 12 | Security across design, build and release |
+| Identity & privileged access | 12 | Accounts, authentication and privilege |
+| Mobile release readiness | 12 | Shipping a mobile app safely |
+| Data protection operations | 12 | Running privacy obligations day to day |
+| Security culture & role readiness | 12 | People, training and role readiness |
+
+That is 186 original prompts in total.
 
 ## How the score works
 
@@ -41,7 +51,7 @@ The index is an equal-weight, selected-state measure:
 index = (sum of your numeric ratings) / (number of rated prompts × 3) × 100
 ```
 
-The five-point scale is: *Not in place (0)*, *Partly in place (1)*, *Documented and routinely followed (2)*, *Reviewed using evidence (3)*, plus *Unknown* and *Excluded*, which are reported but never scored. Scores across different frameworks are not comparable, by design.
+Each prompt is rated *Operating (3)*, *Partial (2)*, *Planned (1)* or *Not in place (0)*, or marked *Not sure*. Only rated prompts count toward the index. *Not sure* and unanswered prompts are reported separately and are never scored as a pass or as a gap. Gaps are listed highest priority first. Scores across different assessments are not comparable, by design.
 
 ## Run it locally
 
