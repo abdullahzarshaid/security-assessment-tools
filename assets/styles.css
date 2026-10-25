@@ -112,3 +112,32 @@ header.top nav a:hover{color:var(--acc)}
   .card,.score,.bars,.prio,.pitem,.stat{border-color:#ccc;background:#fff;box-shadow:none}
   .print-only{display:block}
 }
+
+/* ---- tools page ---- */
+.tool{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin:0 0 18px}
+.tool h3{margin:0 0 4px;font-size:19px}
+.tool .lead{color:var(--muted);font-size:14px;margin:0 0 14px}
+.field{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}
+.field label{font-size:13px;font-weight:600;color:var(--ink)}
+.field input,.field textarea,.field select{background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:14px;padding:9px 12px}
+.field textarea{min-height:120px;font-family:ui-monospace,Consolas,monospace;font-size:13px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--acc)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.row2{grid-template-columns:1fr}}
+.result{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.result.err{color:var(--s-initial)}
+.kv{width:100%;border-collapse:collapse;font-size:14px}
+.kv td{border-bottom:1px solid var(--line);padding:7px 4px;vertical-align:top}
+.kv td:first-child{color:var(--muted);width:42%;white-space:nowrap}
+.kv td:last-child{font-family:ui-monospace,Consolas,monospace}
+pre.json{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:13px;margin:8px 0}
+ul.warn{margin:8px 0;padding-left:18px;font-size:14px;color:var(--muted)}
+ul.warn li{margin:4px 0}
+.hstatus{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+.hstatus.Present{background:rgba(42,157,111,.16);color:var(--s-strong)}
+.hstatus.Review{background:rgba(200,134,10,.16);color:var(--s-early)}
+.hstatus[class~="Not"]{background:rgba(107,104,120,.16);color:var(--s-none)}
+.trace{list-style:none;padding:0;margin:8px 0;font-size:13px}
+.trace li{padding:5px 0 5px 20px;position:relative;color:var(--muted)}
+.trace li:before{content:"\2192";position:absolute;left:0;color:var(--acc)}
+.verdict{font-weight:700;padding:3px 11px;border-radius:999px;color:#fff;display:inline-block;font-size:13px}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Security Tools: subnet calculator, JWT inspector, header analyzer, access-control demo</title>
+<meta name="description" content="Free, in-browser security utilities: a subnet calculator, a JWT inspector, a security-header analyzer, an access-control (BOLA) demonstration and a 5 by 5 risk matrix. Everything runs locally; nothing is sent anywhere.">
+<meta name="keywords" content="subnet calculator, CIDR calculator, JWT decoder, JWT inspector, security headers analyzer, CSP checker, BOLA demo, access control, risk matrix, security tools">
+<meta name="author" content="Abdullah Bin Zarshaid">
+<link rel="canonical" href="https://abdullahzarshaid.github.io/security-assessment-tools/tools.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Security Tools">
+<meta property="og:description" content="Subnet calculator, JWT inspector, security-header analyzer, access-control demo and a risk matrix. All in your browser.">
+<meta property="og:image" content="https://abdullahzarshaid.github.io/security-assessment-tools/assets/social-preview.png">
+<meta property="og:url" content="https://abdullahzarshaid.github.io/security-assessment-tools/tools.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Security Tools">
+<meta name="twitter:description" content="Subnet calculator, JWT inspector, header analyzer, access-control demo and risk matrix, all in your browser.">
+<meta name="theme-color" content="#fbfafc">
+<link rel="icon" href="assets/site-favicon.png" type="image/png">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="https://abdullahzarshaid.com" target="_blank" rel="noopener" aria-label="Abdullah Bin Zarshaid">
+    <img src="assets/abz-logo.png" alt="Abdullah Bin Zarshaid logo">
+    <b>Security Tools</b>
+  </a>
+  <nav>
+    <a href="index.html">Assessments</a>
+    <a href="https://abdullahzarshaid.github.io/grc-documentation-kit/" target="_blank" rel="noopener">GRC Kit</a>
+    <a href="https://abdullahzarshaid.com" target="_blank" rel="noopener">abdullahzarshaid.com</a>
+    <a href="https://github.com/abdullahzarshaid/security-assessment-tools" target="_blank" rel="noopener">Source</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <section class="hero" style="padding:46px 0 10px">
+    <p class="kicker">Hands-on utilities</p>
+    <h1>Small <span>security tools</span>, all in your browser.</h1>
+    <p>Five quick utilities for day-to-day security work. Everything runs on your device, nothing is sent anywhere. Use non-sensitive sample data only.</p>
+  </section>
+
+  <div class="tool">
+    <h3>Subnet calculator</h3>
+    <p class="lead">Work out the network, mask, usable range and host count for an IPv4 CIDR block.</p>
+    <div class="field"><label for="sn-in">CIDR block</label><input id="sn-in" value="192.0.2.0/24" placeholder="192.0.2.0/24"></div>
+    <button class="btn" id="sn-go">Calculate</button>
+    <div class="result" id="sn-out"></div>
+  </div>
+
+  <div class="tool">
+    <h3>JWT inspector</h3>
+    <p class="lead">Decode the header and payload of a compact JWT. The signature is never verified, so decoding does not authenticate any claim. Paste a non-sensitive sample token only.</p>
+    <div class="field"><label for="jwt-in">JWT (three dot-separated parts)</label><textarea id="jwt-in" placeholder="eyJhbGciOi...header.eyJzdWIiOi...payload.signature"></textarea></div>
+    <button class="btn" id="jwt-go">Inspect</button>
+    <div class="result" id="jwt-out"></div>
+  </div>
+
+  <div class="tool">
+    <h3>Security header analyzer</h3>
+    <p class="lead">Paste a raw HTTP response (headers) and see which common security headers are present, need review, or were not observed. Presence alone does not prove an effective policy.</p>
+    <div class="field"><label for="hdr-in">Response headers</label><textarea id="hdr-in" placeholder="Content-Security-Policy: default-src 'self'&#10;Strict-Transport-Security: max-age=31536000&#10;X-Content-Type-Options: nosniff"></textarea></div>
+    <button class="btn" id="hdr-go">Analyze</button>
+    <div class="result" id="hdr-out"></div>
+  </div>
+
+  <div class="tool">
+    <h3>Access-control demonstration</h3>
+    <p class="lead">A synthetic example of broken object-level authorization (BOLA). Pick an actor, an object and whether object-level authorization is enforced, and see the decision and why. Synthetic data only; this calls no real system.</p>
+    <div class="row2">
+      <div class="field"><label for="az-actor">Actor</label><select id="az-actor"><option value="alice">Alice (tenant north, owns Order 101)</option><option value="bob">Bob (tenant south, owns Order 202)</option><option value="auditor">Auditor (tenant north, read-all)</option></select></div>
+      <div class="field"><label for="az-res">Object</label><select id="az-res"><option value="order101">Order 101 (owner Alice, north)</option><option value="order202">Order 202 (owner Bob, south)</option></select></div>
+    </div>
+    <div class="field"><label for="az-mode">Authorization model</label><select id="az-mode"><option value="enforced">Object authorization enforced</option><option value="missing">Flawed: checks login only</option></select></div>
+    <button class="btn" id="az-go">Evaluate</button>
+    <div class="result" id="az-out"></div>
+  </div>
+
+  <div class="tool">
+    <h3>Risk matrix (5 by 5)</h3>
+    <p class="lead">An illustrative likelihood by impact prioritization. Not CVSS, an actuarial estimate, or a statement of organizational risk acceptance.</p>
+    <div class="row2">
+      <div class="field"><label for="risk-l">Likelihood (1 to 5)</label><input id="risk-l" type="number" min="1" max="5" value="3"></div>
+      <div class="field"><label for="risk-i">Impact (1 to 5)</label><input id="risk-i" type="number" min="1" max="5" value="4"></div>
+    </div>
+    <button class="btn" id="risk-go">Rate</button>
+    <div class="result" id="risk-out"></div>
+  </div>
+
+  <div class="note"><b>Private by design.</b> These tools run entirely in your browser. No account, no server, no tracking. Decoding or analyzing a value here does not validate, authenticate or secure it, and none of these utilities replace a proper security test.</div>
+</main>
+
+<footer class="foot"><div class="wrap">
+  Built by <a href="https://abdullahzarshaid.com" target="_blank" rel="noopener">Abdullah Bin Zarshaid</a>.
+  Pair these with the <a href="index.html">readiness assessments</a> and the open <a href="https://abdullahzarshaid.github.io/grc-documentation-kit/" target="_blank" rel="noopener">GRC Documentation Kit</a>.
+  <br>Questions or feedback: <a href="mailto:abdullahbinzarshaid@gmail.com">abdullahbinzarshaid@gmail.com</a>
+</div></footer>
+
+<script src="assets/library.js"></script>
+<script src="assets/tools.js"></script>
+</body>
+</html>
