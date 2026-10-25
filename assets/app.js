@@ -154,4 +154,9 @@
   function stat(v,l){ return '<div class="stat"><b>'+v+'</b><span>'+l+'</span></div>'; }
 
   renderHome();
+  // Deep link: index.html?pack=<id> or index.html#<id> opens that assessment directly.
+  (function(){
+    var p = new URLSearchParams(location.search).get("pack") || (location.hash || "").replace(/^#/, "");
+    if (p && E.getTrack(p)) openTrack(p);
+  })();
 })();
