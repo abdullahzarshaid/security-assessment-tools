@@ -161,7 +161,7 @@
       '<div class="actions"><button class="btn" id="printbtn">Save as PDF</button>'+
         '<button class="btn ghost" id="topbtn">Back to prompts</button>'+
         '<a class="btn ghost" href="'+KIT+'" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Open the GRC kit</a></div>'+
-      '<p class="print-only" style="margin-top:14px;font-size:12px">Generated with the ABZSECURE security self-assessment, abdullahzarshaid.com. Self-reported; not an audit. '+new Date().toISOString().slice(0,10)+'</p>';
+      '<p class="print-only" style="margin-top:14px;font-size:12px">Generated with the security self-assessment at abdullahzarshaid.com. Self-reported; not an audit. '+new Date().toISOString().slice(0,10)+'</p>';
     res.classList.add("on");
     requestAnimationFrame(function(){
       Array.prototype.forEach.call(res.querySelectorAll(".btrack i"), function(i){ i.style.width = i.style.width; });

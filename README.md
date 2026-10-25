@@ -64,5 +64,5 @@ Content and code are released under the [MIT License](LICENSE). Use it, adapt it
 
 ---
 
-Built by [Abdullah Bin Zarshaid](https://abdullahzarshaid.com) · ABZSECURE.
+Built by [Abdullah Bin Zarshaid](https://abdullahzarshaid.com) .
 Questions or feedback: abdullahbinzarshaid@gmail.com

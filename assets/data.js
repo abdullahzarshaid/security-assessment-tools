@@ -1,4 +1,4 @@
-/* Original ABZSECURE readiness prompts. No licensed standards text or private app data.
+/* Original readiness prompts by Abdullah Bin Zarshaid (abdullahzarshaid.com). No licensed standards text or private app data.
    Each prompt links to a remediation document in the open GRC Documentation Kit.
    Fields: code, area, title (the prompt), evidence (what proves it), action (what to do),
    owner (the role), kit (GRC kit document id for remediation). */

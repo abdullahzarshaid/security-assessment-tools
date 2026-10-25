@@ -1,4 +1,4 @@
-/* Scoring engine. Adapted from the ABZSECURE readiness engine (abdullahzarshaid.com).
+/* Scoring engine. Readiness scoring engine by Abdullah Bin Zarshaid (abdullahzarshaid.com).
    Equal-weight selected-state index. Unknowns and exclusions are never scored as passes. */
 window.STATUS_LABELS = {
   unreviewed: "Not reviewed / unknown",
