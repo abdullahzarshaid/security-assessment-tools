@@ -17,7 +17,7 @@ Fifteen readiness assessments, from a plain-language starting point to framework
 ## Why this one is different
 
 - **Private by design.** No account, no server, no tracking. Your answers are stored only in your own browser so you can come back to them, and you can clear them at any time.
-- **Honest scoring.** Prompts you mark *unknown*, and items you *exclude*, are shown separately and are never counted as passes. The result is a conversation starter for your own team, not an audit or a certification.
+- **Honest scoring.** Prompts you mark *Not sure*, and prompts you leave unanswered, are shown separately and are never counted as a pass or as a gap. The result is a conversation starter for your own team, not an audit or a certification.
 - **Every gap is actionable.** Each gap links straight to a matching remediation template in the open [GRC Documentation Kit](https://abdullahzarshaid.github.io/grc-documentation-kit/), so you leave with a next step, not just a number.
 - **Original content.** The prompts are original readiness questions, not reproduced standards text.
 
